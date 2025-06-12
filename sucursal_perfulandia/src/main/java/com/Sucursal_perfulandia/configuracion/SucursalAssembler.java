@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
+import org.springframework.lang.NonNull;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import com.Sucursal_perfulandia.Controller.SucuController;
