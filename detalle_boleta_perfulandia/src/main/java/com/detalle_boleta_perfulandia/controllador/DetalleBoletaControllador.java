@@ -11,13 +11,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.detalle_boleta_perfulandia.dto.DetalleBoletaDTO;
 import com.detalle_boleta_perfulandia.entidades.DetalleBoleta;
 import com.detalle_boleta_perfulandia.servicio.DetalleBoletaServicio;
 
-@Controller
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@RestController
 @RequestMapping("/detalle_boleta")
+@Tag(name = "Detalle boleta", description = "Operaciones relacionadas con el detalle de las boletas")
 public class DetalleBoletaControllador {
 	
 	@Autowired
