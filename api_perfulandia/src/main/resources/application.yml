@@ -1,0 +1,60 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: api-perfulandia
+
+  cloud:
+    gateway:
+      routes:
+        - id: usuario_servicio
+          uri: http://localhost:8080
+          predicates:
+            - Path=/api/usuario/**
+          filters:
+            - RewritePath=/api/usuario/(?<segmento>.*), /usuario/${segmento}
+
+        - id: sucursal_servicio
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/sucursal/**
+          filters:
+            - RewritePath=/api/sucursal/(?<segmento>.*), /sucursal/${segmento}
+
+        - id: producto_servicio
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/producto/**
+          filters:
+            - RewritePath=/api/producto/(?<segmento>.*), /producto/${segmento}
+
+        - id: boleta_servicio
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/boleta/**
+          filters:
+            - RewritePath=/api/boleta/(?<segmento>.*), /boleta/${segmento}
+
+        - id: detalle_boleta_servicio
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/detalle_boleta/**
+          filters:
+            - RewritePath=/api/detalle_boleta/(?<segmento>.*), /detalle_boleta/${segmento}
+
+        - id: empleado_servicio
+          uri:
+            http://localhost:8086
+          predicates:
+          - Path=/api/empleado/**
+          filters:
+          - RewritePath=/api/empleado/(?<segmento>.*), /empleado/${segmento}
+        
+        - id: inventario_servicio
+          uri:
+            http://localhost:8090 
+          predicates:
+          - Path=/api/inventario/**
+          filters:
+          -  RewritePath=/api/inventario/(?<segmento>.*), /inventario/${segmento}

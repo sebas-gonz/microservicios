@@ -1,0 +1,13 @@
+package com.envio_perfulandia;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class EnvioPerfulandiaApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
