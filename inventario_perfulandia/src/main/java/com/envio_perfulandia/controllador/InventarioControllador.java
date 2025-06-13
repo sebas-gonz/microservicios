@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.client.RestTemplate;
 import com.envio_perfulandia.dto.InventarioDTO;
 import com.envio_perfulandia.entidad.Inventario;
 import com.envio_perfulandia.servicio.InventarioServicio;
@@ -19,8 +19,15 @@ import com.envio_perfulandia.servicio.InventarioServicio;
 @RestController
 @RequestMapping("/inventario")
 public class InventarioControllador {
+
+    private final RestTemplate restTemplate;
 	@Autowired
 	private InventarioServicio servicio;
+
+
+    InventarioControllador(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 	
 	
 	@GetMapping("/")
@@ -62,5 +69,10 @@ public class InventarioControllador {
 	public ResponseEntity<List<Inventario>> inventarioPorProducto(@PathVariable("productoid")int productoId){
 		List<Inventario> inventarios = servicio.inventarioByProductoId(productoId);
 		return inventarios != null ? ResponseEntity.ok(inventarios) : ResponseEntity.noContent().build();
+	}
+	@PostMapping("/{inventarioId}/pedido")
+	public ResponseEntity<Inventario> actualizarInventario(@PathVariable("inventarioId")int inventarioid, @RequestBody InventarioDTO inventarioDTO){
+		Inventario inventario = servicio.editarInventario(inventarioid, inventarioDTO);
+		return inventario != null ? ResponseEntity.ok(inventario) : ResponseEntity.notFound().build(); 
 	}
 }
