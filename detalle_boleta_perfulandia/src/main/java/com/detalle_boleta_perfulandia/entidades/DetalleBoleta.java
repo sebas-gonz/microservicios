@@ -1,17 +1,25 @@
 package com.detalle_boleta_perfulandia.entidades;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
+@Schema(description = "Entidad que representa una detalle boleta del sistema.")
 public class DetalleBoleta {
+	@Schema(description = "Identificador único de una detalle boleta.", example = "1")
 	private int detalleBoletaId;
+	@Schema(description = "Id de una producto segun detalle boleta.", example = "2")
 	private int productoId;
+	@Schema(description = "Nombre del producto una detalle boleta.", example = "perfume")
 	private String nombreProducto;
+	@Schema(description = "cantidad de una detalle boleta.", example = "3")
 	private int cantidad;
+	@Schema(description = "Subtotal de una detalle boleta.", example = "4")
 	private int subtotal;
+	@Schema(description = "Id de boleta segun detalle boleta.", example = "5")
 	private int boletaId;
 
 	

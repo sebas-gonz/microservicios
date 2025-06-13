@@ -30,7 +30,7 @@ public class BoletaControllador {
 	private BoletaServicio boletaServicio;
 	
 	@GetMapping("/")
-	@Operation(summary = "Obtener las todas las boletas", description = "Obtiene una lista das las boletas.")
+	@Operation(summary = "Obtener todas las boletas", description = "Obtiene una lista das las boletas.")
 	@ApiResponses(value = {
 	    @ApiResponse(responseCode = "200", description = "Lista de boletas."),
 	    @ApiResponse(responseCode = "500", description = "No hay boletas registradas.")
@@ -240,23 +240,57 @@ public class BoletaControllador {
 	}
 	
 	@GetMapping("/sucursal/{sucursalid}")
+	@Operation(
+		    summary = "se obtiene un bolta segun la sucursal",
+		    description = "obtiene un boletas segun la id de sucursal"
+		)
+		@ApiResponses(value = {
+		    @ApiResponse(
+		        responseCode = "200",
+		        description = "se obtuvo la boleta segun la sucursal"),
+		    @ApiResponse(
+		        responseCode = "204",
+		        description = "no se obtuvo la boleta segun la id de sucursal"
+		    )
+		})
 	public ResponseEntity<List<BoletaDTO>> boletasSucursal(@PathVariable("sucursalid") int sucursalId){
 		List<BoletaDTO> boletas = boletaServicio.boletaSucursal(sucursalId);
 		return boletas == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(boletas);
 	}
-	@GetMapping("/sucursal/{sucursalid}/usuario")
-	public ResponseEntity<List<Integer>> usuariosSucursal(@PathVariable("sucursalid") int sucursalId){
-		List<Integer> usuariosId = boletaServicio.usuariosSucursal(sucursalId);
-		return usuariosId == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(usuariosId);
-	}
 	
 	@GetMapping("/empleado/{empleadoid}")
+	@Operation(
+		    summary = "se obtiene un bolta segun el empleado",
+		    description = "obtiene un boletas segun la id del empleado"
+		)
+		@ApiResponses(value = {
+		    @ApiResponse(
+		        responseCode = "200",
+		        description = "se obtuvo la boleta segun el empleado"),
+		    @ApiResponse(
+		        responseCode = "204",
+		        description = "no se obtuvo la boleta segun la id del empleado"
+		    )
+		})
 	public ResponseEntity<List<Boleta>> boletasEmpleado(@PathVariable("empleadoid")int empleadoId){
 		List<Boleta> boletas = boletaServicio.boletasEmpleado(empleadoId);
 		return boletas == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(boletas);
 	}
 	
 	@GetMapping("/pedido/{pedidoid}")
+	@Operation(
+		    summary = "se obtiene un bolta segun el pedido",
+		    description = "obtiene un boletas segun la id del pedido"
+		)
+		@ApiResponses(value = {
+		    @ApiResponse(
+		        responseCode = "200",
+		        description = "se obtuvo la boleta segun el pedido"),
+		    @ApiResponse(
+		        responseCode = "204",
+		        description = "no se obtuvo la boleta segun la id del pedido"
+		    )
+		})
 	public ResponseEntity<Boleta> boletaPorPedidodId(@PathVariable("pedidoid")int pedidoId){
 		Boleta boleta = boletaServicio.boletaByPedidoId(pedidoId);
 		return boleta != null ? ResponseEntity.ok(boleta) : ResponseEntity.noContent().build();

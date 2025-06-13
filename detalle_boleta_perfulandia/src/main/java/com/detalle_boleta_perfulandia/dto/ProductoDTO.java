@@ -1,11 +1,18 @@
 package com.detalle_boleta_perfulandia.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(description = "Entidad que representa un productoDTO del sistema.")
 public class ProductoDTO {
+	@Schema(description = "id del productoDTO.", example = "1")
     private int idproducto;
+	@Schema(description = "nombre del productoDTO.", example = "colonia")
     private String nombreproducto;
+	@Schema(description = "categoria del productoDTO", example = "perfume")
     private String categoria;
+	@Schema(description = "cantidad del productoDTO.", example = "1")
     private int cantidad;
+	@Schema(description = "precio del productoDTO.", example = "$40")
     private int precio;
     
 	public ProductoDTO() {

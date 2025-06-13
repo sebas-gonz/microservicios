@@ -1,13 +1,22 @@
 package com.detalle_boleta_perfulandia.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "Entidad que representa una emoleadoDTO del sistema.")
 public class EmpleadoDTO {
+	@Schema(description = "id del empleado.", example = "1")
 	private int empleadoId;
-	
+	@Schema(description = "nombre del empleado.", example = "juan")
 	private String nombre;
+	@Schema(description = "correo del empleado.", example = "juan@123.com")
 	private String correo;
+	@Schema(description = "rut del empleado.", example = "23878097-2")
 	private String rut;
+	@Schema(description = "cargo del empleado.", example = "jefe")
 	private String cargo;
+	@Schema(description = "id de la sucursal.", example = "2")
 	private int sucursalId;
+	
 	public EmpleadoDTO() {
 		super();
 	}
