@@ -1,4 +1,4 @@
-package com.detalle_boleta_perfulandia.entidades;
+	package com.detalle_boleta_perfulandia.entidades;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

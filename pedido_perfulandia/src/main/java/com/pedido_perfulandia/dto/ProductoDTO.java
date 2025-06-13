@@ -5,7 +5,7 @@ public class ProductoDTO {
 	    private String nombreproducto;
 	    private String categoria;
 	    private int sucursalId;
-	    private int cantidad;
+	   
 	    private int precio;
 	    
 		public ProductoDTO() {
@@ -35,13 +35,7 @@ public class ProductoDTO {
 			this.categoria = categoria;
 		}
 
-		public int getCantidad() {
-			return cantidad;
-		}
-
-		public void setCantidad(int cantidad) {
-			this.cantidad = cantidad;
-		}
+		
 
 		public int getPrecio() {
 			return precio;

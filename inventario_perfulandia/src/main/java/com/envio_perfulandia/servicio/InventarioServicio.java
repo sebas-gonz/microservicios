@@ -54,7 +54,14 @@ public class InventarioServicio {
 		}
 		return inventario;
 	}
-	
+	 public Inventario editarInventario(int inventarioId, InventarioDTO inventarioDTO){
+		 Inventario inventario = repositorio.findById(inventarioId).orElse(null);
+		if(inventario != null) {
+			inventario.setCantidadDisponible(inventarioDTO.getCantidadDisponible());
+			return repositorio.save(inventario);
+		}
+		return null;
+	 }
 	public void eliminarInventario(int inventarioId) {
 		repositorio.deleteById(inventarioId);
 	}
