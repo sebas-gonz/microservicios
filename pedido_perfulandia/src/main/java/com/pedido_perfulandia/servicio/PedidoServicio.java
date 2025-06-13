@@ -46,7 +46,7 @@ public class PedidoServicio {
 	            detalle.setPedidoId(pedidoId);
 	        }
 	        
-	        String urlDetalle = "http://localhost:8085/detalle_pedido/pedido";
+	        String urlDetalle = "http://localhost:8088/api/detalle_pedido/pedido";
 	        restTemplate.postForObject(urlDetalle, detallesPedidos, Void.class);
 
 	        String urlUsuario = "http://localhost:8088/api/usuario/" + pedido.getUsuarioId();
@@ -158,22 +158,9 @@ public class PedidoServicio {
 	}
 	
 	
-	public PedidoDTO pedidoById(int pedidoId) {
+	public Pedido pedidoById(int pedidoId) {
 		Pedido pedido = respositorio.findById(pedidoId).orElse(null);
-		if(pedido != null) {
-			PedidoDTO pedidoDTO = new PedidoDTO();
-			String urlDetallePedido = "http://localhost:8085/detalle_pedido/pedido/" + pedidoId;
-			DetallePedidoDTO[] detalles = restTemplate.getForObject(urlDetallePedido, DetallePedidoDTO[].class);
-			
-			pedidoDTO.setFechaPedido(pedido.getFechaPedido());
-			pedidoDTO.setEstado(pedido.getEstado());
-			pedidoDTO.setSucursalId(pedido.getSucursalId());
-			pedidoDTO.setUsuarioId(pedido.getUsuarioId());
-			pedidoDTO.setDetalles(Arrays.asList(detalles));
-			pedidoDTO.setPedidoId(pedidoId);
-			return pedidoDTO;
-		}
-		return null;
+		return pedido;
 	}
 	
 	public List<Pedido> pedidos(){

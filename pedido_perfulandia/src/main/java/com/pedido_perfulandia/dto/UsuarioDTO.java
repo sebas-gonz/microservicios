@@ -1,14 +1,28 @@
 package com.pedido_perfulandia.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(name = "UsuarioDTO", description = "DTO que representa la información de un usuario")
 public class UsuarioDTO {
-	
-	private int usuario_id;
-	private String nombre;
-	private String apellido;
-	private String direccion;
-	private String correo;
-	private String contraseña;
-	
+
+    @Schema(description = "ID único del usuario", example = "1001")
+    private int usuario_id;
+
+    @Schema(description = "Nombre del usuario", example = "Juan")
+    private String nombre;
+
+    @Schema(description = "Apellido del usuario", example = "Pérez")
+    private String apellido;
+
+    @Schema(description = "Dirección del usuario", example = "Calle Falsa 123, Ciudad")
+    private String direccion;
+
+    @Schema(description = "Correo electrónico del usuario", example = "juan.perez@email.com")
+    private String correo;
+
+    @Schema(description = "Contraseña del usuario", example = "********")
+    private String contraseña;
+
 	public UsuarioDTO() {
 		super();
 	}
