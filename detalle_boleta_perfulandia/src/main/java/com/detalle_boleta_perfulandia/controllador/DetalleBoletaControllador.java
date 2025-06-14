@@ -36,7 +36,7 @@ public class DetalleBoletaControllador {
 	@Operation(summary = "Obtener todos los detalle boletas", description = "Obtiene una lista de los detalle boletas.")
 	@ApiResponses(value = {
 	    @ApiResponse(responseCode = "200", description = "Lista de detalle boletas."),
-	    @ApiResponse(responseCode = "500", description = "No hay detalle boletas registradas.")
+	    @ApiResponse(responseCode = "204", description = "No hay detalle boletas registradass.")
 	})
 	public ResponseEntity<List<DetalleBoleta>> obtenerDetalleBoleta(){
 		if(detalleBoletaServicio.obtenerDetalleBoletas().isEmpty()) {

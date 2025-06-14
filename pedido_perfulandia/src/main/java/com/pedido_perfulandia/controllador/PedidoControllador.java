@@ -17,8 +17,14 @@ import com.pedido_perfulandia.dto.PedidoDTO;
 import com.pedido_perfulandia.entidad.Pedido;
 import com.pedido_perfulandia.servicio.PedidoServicio;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/pedido")
+@Tag(name = "Pedido", description = "Operaciones relacionadas con el pedido")
 public class PedidoControllador {
 	
 	@Autowired
@@ -28,12 +34,30 @@ public class PedidoControllador {
 	private PedidoAssembler assembler;
 	
 	@GetMapping("/")
+	@Operation(summary = "Obtener todos los pedidos", description = "Obtiene una lista de todos los pedidos dentro del sistema.")
+	@ApiResponses(value = {
+	    @ApiResponse(responseCode = "200", description = "Lista de envios obtenidos."),
+	    @ApiResponse(responseCode = "204", description = "No hay envios dentro sistema.")
+	})
 	public ResponseEntity<List<Pedido>> obtenerPedidos(){
 		List<Pedido> pedidos = servicio.pedidos();
 		return pedidos == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(pedidos);
 	}
 	
 	@GetMapping("/{pedidoid}")
+	@Operation(
+		    summary = "Obtener los pedidos especificos",
+		    description = "Obtiene todos los pedidos dentro del sistema mediante una id especifica"
+		)
+		@ApiResponses(value = {
+		    @ApiResponse(
+		        responseCode = "200",
+		        description = ""),
+		    @ApiResponse(
+		        responseCode = "204",
+		        description = "Datos del pedido erroneos."
+		    )
+		})
 	public ResponseEntity<Pedido> obtenerPedido(@PathVariable("pedidoid")int pedidoId){
 		Pedido pedido = servicio.pedidoById(pedidoId);
 		return pedido == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(pedido);
