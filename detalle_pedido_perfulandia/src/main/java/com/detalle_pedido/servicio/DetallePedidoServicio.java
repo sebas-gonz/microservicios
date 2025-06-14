@@ -67,7 +67,7 @@ public class DetallePedidoServicio {
 			DetallePedido detalle = new DetallePedido();
 			
 			detalle.setCantidad(detalleDTO.getCantidad());
-			detalle.setNombreProducto(producto.getNombreproducto());
+			detalle.setNombreProducto(producto.getNombreProducto());
 			detalle.setPedidoId(detalleDTO.getPedidoId());
 			detalle.setSubtotal(producto.getPrecio() * detalleDTO.getCantidad());
 			detalle.setProductoId(detalleDTO.getProductoId());

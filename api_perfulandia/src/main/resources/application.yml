@@ -58,3 +58,11 @@ spring:
           - Path=/api/inventario/**
           filters:
           -  RewritePath=/api/inventario/(?<segmento>.*), /inventario/${segmento}
+
+        - id: detalle_pedido
+          uri:
+            http://localhost:8085
+          predicates:
+          - Path=/api/detalle_pedido/**
+          filters:
+          - RewritePath=/api/detalle_pedido/(?<segmento>.*), /detalle_pedido/${segmento}

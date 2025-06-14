@@ -1,31 +1,12 @@
 package com.pedido_perfulandia.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
-@Schema(name = "ProductoDTO", description = "DTO que representa la información de un producto en una sucursal con cantidad disponible")
 public class ProductoDTO {
-
-
-    @Schema(description = "ID único del producto", example = "101")
-    private int idproducto;
-
-    @Schema(description = "Nombre del producto", example = "Camiseta deportiva")
-    private String nombreproducto;
-
-    @Schema(description = "Categoría a la que pertenece el producto", example = "Ropa deportiva")
-    private String categoria;
-
-    @Schema(description = "ID de la sucursal donde está disponible el producto", example = "5")
-    private int sucursalId;
-
-    @Schema(description = "Cantidad disponible del producto en la sucursal", example = "50")
-    private int cantidad;
-
-    @Schema(description = "Precio unitario del producto", example = "15000")
-    private int precio;
-
-
-
+	    private int idproducto;
+	    private String nombreproducto;
+	    private String categoria;
+	    private int sucursalId;
+	   
+	    private int precio;
 	    
 		public ProductoDTO() {
 			super();

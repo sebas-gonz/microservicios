@@ -70,9 +70,17 @@ public class InventarioControllador {
 		List<Inventario> inventarios = servicio.inventarioByProductoId(productoId);
 		return inventarios != null ? ResponseEntity.ok(inventarios) : ResponseEntity.noContent().build();
 	}
-	@PostMapping("/{inventarioId}/pedido")
-	public ResponseEntity<Inventario> actualizarInventario(@PathVariable("inventarioId")int inventarioid, @RequestBody InventarioDTO inventarioDTO){
-		Inventario inventario = servicio.editarInventario(inventarioid, inventarioDTO);
-		return inventario != null ? ResponseEntity.ok(inventario) : ResponseEntity.notFound().build(); 
+	
+	@GetMapping("/{sucursalid}/{productoid}")
+	public ResponseEntity<List<Inventario>> inventariosPorSucursalYProducto(@PathVariable("sucursalid")int sucursalId,@PathVariable("productoid")int productoId){
+		List<Inventario> inventarios = servicio.inventariosPorSucursalYProductos(sucursalId, productoId);
+		return inventarios == null ? ResponseEntity.notFound().build() : ResponseEntity.ok( inventarios);
+	}
+	
+	@PostMapping("/pedido")
+	public ResponseEntity<List<Inventario>> actualizarInventario(@RequestBody List<InventarioDTO> inventariosDTO){
+		
+		List<Inventario> inventarios = servicio.editarInventario(inventariosDTO);
+		return inventarios != null ? ResponseEntity.ok(inventarios) : ResponseEntity.notFound().build(); 
 	}
 }

@@ -28,9 +28,7 @@ public class EmpleadoControllador {
 	
 	@Autowired
 	private empleadoServicio servicio;
-
 	//Inicio1
-
 	@GetMapping("/")
 	@Operation(summary = "Obtener a todos los empleados", description = "Nos da una lista de los empleados")
 	@ApiResponses(value = {
@@ -126,9 +124,7 @@ public class EmpleadoControllador {
 			return ResponseEntity.notFound().build();
 		}
 		servicio.eliminarEmpleado(empleadoId);
-		return ResponseEntity.noContent().build();
-        
-
+        return ResponseEntity.noContent().build();
 	}
 	//Fin5
 	//Inicio6
