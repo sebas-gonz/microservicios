@@ -1,21 +1,32 @@
 package com.boleta_perfulandia.entidades;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
+@Schema(description = "Entidad que representa una boleta del sistema.")
 public class Boleta {
 	
+	@Schema(description = "Identificador único de una boleta.", example = "1")
 	private int boletaId;
+	@Schema(description = "Nombre del usuario que le pertenece a la boleta.", example = "juan")
 	private String nombreUsuario;
+	@Schema(description = "Nombre de la sucursal que le pertenece a la boleta.", example = "patito")
 	private String nombreSucursal;
+	@Schema(description = "Nombre del empleado que le pertenece a la boleta.", example = "franco")
 	private String nombreEmpleado;
+	@Schema(description = "id del usuario.", example = "2")
 	private int usuarioId;
+	@Schema(description = "id de la sucursal.", example = "3")
 	private int sucursalId;
+	@Schema(description = "id del empleado.", example = "4")
 	private int empleadoId;
+	@Schema(description = "id del pedido.", example = "1")
 	private int pedidoId;
+	@Schema(description = "aqui se muestra el total de la boleta.", example = "$500")
 	private int total;
 	
 	
