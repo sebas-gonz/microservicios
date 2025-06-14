@@ -1,4 +1,4 @@
-package com.trabajador_perfulandia.config;
+package com.detalle_pedido.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +11,7 @@ public class SwaggerConfig {
 	
 	@Bean
 	public OpenAPI customOpenAPI() {
-		return new OpenAPI().info(new Info().title("API 2025 Gestion de empleados.").version("0.1")
-				.description("Documentacion de la API para la gestion de emplados."));
+		return new OpenAPI().info(new Info().title("API 2025 Gestion de detalle pedido.").version("0.1")
+				.description("Documentacion de la API para la gestion de detalle pedido."));
 	}
 }
