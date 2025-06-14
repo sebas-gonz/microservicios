@@ -1,4 +1,4 @@
-package com.detalle_boleta_perfulandia.entidades;
+	package com.detalle_boleta_perfulandia.entidades;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;

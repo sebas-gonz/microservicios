@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(name = "ProductoDTO", description = "DTO que representa la información de un producto en una sucursal con cantidad disponible")
 public class ProductoDTO {
 
+
     @Schema(description = "ID único del producto", example = "101")
     private int idproducto;
 
@@ -22,6 +23,8 @@ public class ProductoDTO {
 
     @Schema(description = "Precio unitario del producto", example = "15000")
     private int precio;
+
+
 
 	    
 		public ProductoDTO() {
@@ -51,13 +54,7 @@ public class ProductoDTO {
 			this.categoria = categoria;
 		}
 
-		public int getCantidad() {
-			return cantidad;
-		}
-
-		public void setCantidad(int cantidad) {
-			this.cantidad = cantidad;
-		}
+		
 
 		public int getPrecio() {
 			return precio;

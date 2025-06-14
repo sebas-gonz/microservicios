@@ -16,6 +16,7 @@ import com.pedido_perfulandia.dto.DetalleBoletaDTO;
 import com.pedido_perfulandia.dto.DetallePedidoDTO;
 import com.pedido_perfulandia.dto.EmpleadoDTO;
 import com.pedido_perfulandia.dto.EnvioDTO;
+import com.pedido_perfulandia.dto.InventarioDTO;
 import com.pedido_perfulandia.dto.PedidoDTO;
 import com.pedido_perfulandia.dto.ProductoDTO;
 import com.pedido_perfulandia.dto.SucursalDTO;
@@ -37,18 +38,33 @@ public class PedidoServicio {
 	        Pedido pedido = new Pedido();
 	        pedido.setUsuarioId(pedidoDTO.getUsuarioId());
 	        pedido.setSucursalId(pedidoDTO.getSucursalId());
-	        respositorio.save(pedido);
+	        
 	        
 	        int pedidoId = pedido.getPedidoId();
-
+	        boolean pedidoPosible = true;
 	        List<DetallePedidoDTO> detallesPedidos = pedidoDTO.getDetalles();
 	        for (DetallePedidoDTO detalle : detallesPedidos) {
 	            detalle.setPedidoId(pedidoId);
+	            
+	            String urlInventario = "http://localhost:8090/inventario/producto"+ detalle.getProductoId();
+	            InventarioDTO inventario = restTemplate.getForObject(urlInventario, InventarioDTO.class);
+	            if(inventario.getCantidadDisponible() < detalle.getCantidad()) {
+	               pedidoPosible = false;
+	            }
+	            else {
+	            	inventario.setCantidadDisponible(inventario.getCantidadDisponible() - detalle.getCantidad());
+	            	
+	            }
+	            
 	        }
+	        if(pedidoPosible != true) {
+	        	return null;
+	        }
+	        respositorio.save(pedido);
 	        
 	        String urlDetalle = "http://localhost:8088/api/detalle_pedido/pedido";
 	        restTemplate.postForObject(urlDetalle, detallesPedidos, Void.class);
-
+             
 	        String urlUsuario = "http://localhost:8088/api/usuario/" + pedido.getUsuarioId();
 	        UsuarioDTO usuario = restTemplate.getForObject(urlUsuario, UsuarioDTO.class);
 
