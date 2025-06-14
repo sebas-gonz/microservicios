@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pedido_perfulandia.config.PedidoAssembler;
 import com.pedido_perfulandia.dto.PedidoDTO;
 import com.pedido_perfulandia.entidad.Pedido;
 import com.pedido_perfulandia.servicio.PedidoServicio;
@@ -23,6 +24,9 @@ public class PedidoControllador {
 	@Autowired
 	private PedidoServicio servicio;
 	
+	@Autowired
+	private PedidoAssembler assembler;
+	
 	@GetMapping("/")
 	public ResponseEntity<List<Pedido>> obtenerPedidos(){
 		List<Pedido> pedidos = servicio.pedidos();
@@ -30,8 +34,8 @@ public class PedidoControllador {
 	}
 	
 	@GetMapping("/{pedidoid}")
-	public ResponseEntity<PedidoDTO> obtenerPedido(@PathVariable("pedidoid")int pedidoId){
-		PedidoDTO pedido = servicio.pedidoById(pedidoId);
+	public ResponseEntity<Pedido> obtenerPedido(@PathVariable("pedidoid")int pedidoId){
+		Pedido pedido = servicio.pedidoById(pedidoId);
 		return pedido == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(pedido);
 	}
 	

@@ -2,18 +2,40 @@ package com.pedido_perfulandia.dto;
 
 import java.util.List;
 
-public class BoletaDTO {
-	private int boletaId;
-	private int usuarioId;
-    private String nombreUsuario;
-    private int sucursalId;
-    private String nombreSucursal;
-    private int empleadoId;
-    private String nombreEmpleado;
-    private int pedidoId;
-    private int total;
-    private List<DetalleBoletaDTO> detalles;
+import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(name = "BoletaDTO", description = "DTO que representa la boleta generada para un pedido")
+public class BoletaDTO {
+
+    @Schema(description = "ID único de la boleta", example = "5001")
+    private int boletaId;
+
+    @Schema(description = "ID del usuario que realizó la boleta", example = "10")
+    private int usuarioId;
+
+    @Schema(description = "Nombre del usuario que realizó la boleta", example = "Juan Pérez")
+    private String nombreUsuario;
+
+    @Schema(description = "ID de la sucursal asociada a la boleta", example = "3")
+    private int sucursalId;
+
+    @Schema(description = "Nombre de la sucursal asociada a la boleta", example = "Sucursal Centro")
+    private String nombreSucursal;
+
+    @Schema(description = "ID del empleado que gestionó la boleta", example = "7")
+    private int empleadoId;
+
+    @Schema(description = "Nombre del empleado que gestionó la boleta", example = "María Gómez")
+    private String nombreEmpleado;
+
+    @Schema(description = "ID del pedido relacionado a la boleta", example = "120")
+    private int pedidoId;
+
+    @Schema(description = "Monto total de la boleta", example = "35000")
+    private int total;
+
+    @Schema(description = "Lista de detalles asociados a la boleta")
+    private List<DetalleBoletaDTO> detalles;
 	public BoletaDTO() {
 		super();
 	}

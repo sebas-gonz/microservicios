@@ -1,12 +1,28 @@
 package com.pedido_perfulandia.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(name = "DetalleBoletaDTO", description = "DTO que representa el detalle de un producto dentro de una boleta")
 public class DetalleBoletaDTO {
-	private int detalleBoletaId;
-	private int productoId;
+
+    @Schema(description = "ID único del detalle de la boleta", example = "100")
+    private int detalleBoletaId;
+
+    @Schema(description = "ID del producto asociado", example = "50")
+    private int productoId;
+
+    @Schema(description = "Nombre del producto", example = "Camiseta deportiva")
     private String nombreProducto;
+
+    @Schema(description = "Cantidad del producto en el detalle", example = "3")
     private int cantidad;
+
+    @Schema(description = "Subtotal calculado para este detalle", example = "45000")
     private int subtotal;
+
+    @Schema(description = "ID de la boleta a la que pertenece este detalle", example = "5001")
     private int boletaId;
+    
 	public String getNombreProducto() {
 		return nombreProducto;
 	}

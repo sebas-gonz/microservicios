@@ -25,6 +25,7 @@ public class EmpleadoControllador {
 	@Autowired
 	private empleadoServicio servicio;
 	
+	
 	@GetMapping("/")
 	public ResponseEntity<List<Empleado>> empleados(){
 		List<Empleado> empleados = servicio.Empleados();
@@ -56,6 +57,7 @@ public class EmpleadoControllador {
 		if(servicio.EmpleadoPorId(empleadoId) == null) {
 			return ResponseEntity.notFound().build();
 		}
+		servicio.eliminarEmpleado(empleadoId);
 		return ResponseEntity.noContent().build();
 	}
 	
