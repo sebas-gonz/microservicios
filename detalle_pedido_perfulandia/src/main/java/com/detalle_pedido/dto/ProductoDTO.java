@@ -3,7 +3,7 @@ package com.detalle_pedido.dto;
 
 public class ProductoDTO {
     private int idproducto;
-    private String nombreproducto;
+    private String nombreProducto;
     private String categoria;
     private int cantidad;
     private int precio;
@@ -19,12 +19,12 @@ public class ProductoDTO {
 		this.idproducto = idproducto;
 	}
 
-	public String getNombreproducto() {
-		return nombreproducto;
+	public String getNombreProducto() {
+		return nombreProducto;
 	}
 
-	public void setNombreproducto(String nombreproducto) {
-		this.nombreproducto = nombreproducto;
+	public void setNombreProducto(String nombreproducto) {
+		this.nombreProducto = nombreproducto;
 	}
 
 	public String getCategoria() {

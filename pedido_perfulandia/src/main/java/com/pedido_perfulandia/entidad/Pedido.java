@@ -12,8 +12,6 @@ import jakarta.persistence.Id;
 @Schema(name = "Pedido", description = "Representa un pedido realizado por un usuario en una sucursal")
 public class Pedido {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "ID único del pedido", example = "1001")
     private int pedidoId;
 
@@ -34,7 +32,8 @@ public class Pedido {
 		this.fechaPedido = LocalDateTime.now();
 		this.estado = "pendiente";
 	}
-
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getPedidoId() {
 		return pedidoId;
 	}
