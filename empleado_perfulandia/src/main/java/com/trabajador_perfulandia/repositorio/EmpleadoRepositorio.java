@@ -11,4 +11,5 @@ import com.trabajador_perfulandia.entidad.Empleado;
 public interface EmpleadoRepositorio extends JpaRepository<Empleado, Integer>{
 	
 	List<Empleado> findBySucursalId(int sucursalId);
+	List<Empleado> findByrut(String rut);
 }
