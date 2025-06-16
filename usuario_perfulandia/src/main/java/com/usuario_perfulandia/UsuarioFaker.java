@@ -25,7 +25,7 @@ public class UsuarioFaker implements CommandLineRunner{
 		
 		Faker faker = new Faker();
 		
-		for(int i = 0; i < 30; i++) {
+		for(int i = 0; i < 31; i++) {
 			Usuario usuario = new Usuario();
 			usuario.setNombre(faker.name().firstName());
 			usuario.setApellido(faker.name().lastName());
