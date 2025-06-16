@@ -57,7 +57,7 @@ public class InventarioServicio {
 	}
 	
 	public List<Inventario> inventariosPorSucursalYProductos(int sucursalId,int producotId){
-		List<Inventario> inventarios = repositorio.findBySucursalIdAndInventarioId(sucursalId, producotId);
+		List<Inventario> inventarios = repositorio.findBySucursalIdAndProductoId(sucursalId, producotId);
 		return inventarios.isEmpty() ? null : inventarios;
 	}
 	 public List<Inventario> editarInventario(List<InventarioDTO> inventariosDTO){
