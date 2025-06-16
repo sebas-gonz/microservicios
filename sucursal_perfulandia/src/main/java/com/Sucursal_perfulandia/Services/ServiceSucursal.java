@@ -44,13 +44,14 @@ public class ServiceSucursal {
         sucursalRepository.deleteById(idSucursal);
     }
 
-    public Sucursal actualizarSucursal(Sucursal sucursal, Sucursal sucuBuscar) {
-        if(sucursal.equals(null)){
+    public Sucursal actualizarSucursal(Sucursal sucursal, int sucursalId) {
+    	Sucursal sucursalAct = sucursalRepository.findById(sucursalId).orElse(null);
+        if(sucursalAct == null){
             return null;
         }
-        sucuBuscar.setDireccion(sucursal.getDireccion());
-        sucuBuscar.setNumeroTelefono(sucursal.getNumeroTelefono());
-        return sucursalRepository.save(sucuBuscar);
+        sucursalAct.setDireccion(sucursal.getDireccion());
+        sucursalAct.setNumeroTelefono(sucursal.getNumeroTelefono());
+        return sucursalRepository.save(sucursalAct);
 
     }
     
