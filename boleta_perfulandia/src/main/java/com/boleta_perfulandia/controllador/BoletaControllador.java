@@ -282,7 +282,7 @@ public class BoletaControllador {
 	@GetMapping("/pedido/{pedidoid}")
 	@Operation(
 		    summary = "se obtiene un bolta segun el pedido",
-		    description = "obtiene un boletas segun la id del pedido"
+		    description = "obtiene una boleta segun la id del pedido"
 		)
 		@ApiResponses(value = {
 		    @ApiResponse(
