@@ -1,14 +1,14 @@
 package com.pedido_perfulandia.config;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 
 import com.pedido_perfulandia.controllador.PedidoControllador;
 import com.pedido_perfulandia.entidad.Pedido;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
-
-import java.lang.reflect.Method;
 @Configuration
 public class PedidoAssembler implements RepresentationModelAssembler<Pedido, EntityModel<Pedido>>{
 

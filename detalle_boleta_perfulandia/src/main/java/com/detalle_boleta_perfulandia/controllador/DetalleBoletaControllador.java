@@ -1,10 +1,12 @@
 package com.detalle_boleta_perfulandia.controllador;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.detalle_boleta_perfulandia.configuracion.DetalleBoletaAssembler;
 import com.detalle_boleta_perfulandia.dto.DetalleBoletaDTO;
 import com.detalle_boleta_perfulandia.entidades.DetalleBoleta;
 import com.detalle_boleta_perfulandia.servicio.DetalleBoletaServicio;
@@ -31,6 +34,9 @@ public class DetalleBoletaControllador {
 	@Autowired
 	private DetalleBoletaServicio detalleBoletaServicio;
 	
+	@Autowired
+	private DetalleBoletaAssembler assembler;
+	
 	
 	@GetMapping("/")
 	@Operation(summary = "Obtener todos los detalle boletas", description = "Obtiene una lista de los detalle boletas.")
@@ -38,11 +44,11 @@ public class DetalleBoletaControllador {
 	    @ApiResponse(responseCode = "200", description = "Lista de detalle boletas."),
 	    @ApiResponse(responseCode = "204", description = "No hay detalle boletas registradass.")
 	})
-	public ResponseEntity<List<DetalleBoleta>> obtenerDetalleBoleta(){
+	public ResponseEntity<CollectionModel<EntityModel<DetalleBoleta>>> obtenerDetalleBoleta(){
 		if(detalleBoletaServicio.obtenerDetalleBoletas().isEmpty()) {
 			return ResponseEntity.noContent().build();
 		}
-		return ResponseEntity.ok(detalleBoletaServicio.obtenerDetalleBoletas());
+		return ResponseEntity.ok(assembler.toCollection(detalleBoletaServicio.obtenerDetalleBoletas()));
 	}
 	
 	@GetMapping("/{id}")
@@ -65,12 +71,12 @@ public class DetalleBoletaControllador {
 		    required = true,
 		    example = "1"
 		)
-	public ResponseEntity<DetalleBoleta> obtenerBoletaPorId(@PathVariable("id")int id){
+	public ResponseEntity<EntityModel<DetalleBoleta>> obtenerBoletaPorId(@PathVariable("id")int id){
 		DetalleBoleta detalleBoleta = detalleBoletaServicio.obtenerDetalleBoletaById(id);
 		if(detalleBoleta == null) {
 			return ResponseEntity.noContent().build();
 		}
-		return ResponseEntity.ok(detalleBoleta);
+		return ResponseEntity.ok(assembler.toModel(detalleBoleta));
 	}
 	
 	@PostMapping("/")
@@ -87,8 +93,8 @@ public class DetalleBoletaControllador {
 		        description = "Datos de detalle boleta erroneas."
 		    )
 		})
-	public ResponseEntity<DetalleBoleta> crearDetalleBoleta(@RequestBody DetalleBoleta detalleBoleta){
-		return ResponseEntity.ok(detalleBoletaServicio.crearDetalleBoleta(detalleBoleta));
+	public ResponseEntity<EntityModel<DetalleBoleta>> crearDetalleBoleta(@RequestBody DetalleBoleta detalleBoleta){
+		return ResponseEntity.ok(assembler.toModel(detalleBoletaServicio.crearDetalleBoleta(detalleBoleta)));
 	}
 	
 	@PostMapping("/pedido")
@@ -105,12 +111,12 @@ public class DetalleBoletaControllador {
 		        description = "Datos de detalle boleta erroneas."
 		    )
 		})
-	public ResponseEntity<List<DetalleBoleta>> crearDetalleBoleta(@RequestBody List<DetalleBoletaDTO> detallesBoletaDTO){
+	public ResponseEntity<CollectionModel<EntityModel<DetalleBoleta>>> crearDetalleBoleta(@RequestBody List<DetalleBoletaDTO> detallesBoletaDTO){
 		List<DetalleBoleta> detalleBoleta = detalleBoletaServicio.crearDetalleBoleta(detallesBoletaDTO);
 		if(detalleBoleta.isEmpty()) {
 			return ResponseEntity.noContent().build();
 		}
-		return ResponseEntity.ok(detalleBoleta);
+		return ResponseEntity.ok(assembler.toCollection(detalleBoleta));
 	}
 	
 	@PostMapping("/{id}")
@@ -127,12 +133,12 @@ public class DetalleBoletaControllador {
 		        description = "detalle boleta no encontrada."
 		    )
 		})
-	public ResponseEntity<DetalleBoleta> actualizarDetalleBoleta(@RequestBody DetalleBoleta detalleBoletaActualizado,@PathVariable("id")int id){
-		DetalleBoleta detalleBoleta = detalleBoletaServicio.obtenerDetalleBoletaById(id);
+	public ResponseEntity<EntityModel<DetalleBoleta>> actualizarDetalleBoleta(@RequestBody DetalleBoleta detalleBoletaActualizado,@PathVariable("id")int id){
+		DetalleBoleta detalleBoleta = detalleBoletaServicio.editarDetalleBoletaById(id, detalleBoletaActualizado);
 		if(detalleBoleta == null) {
 			return ResponseEntity.noContent().build();
 		}
-		return ResponseEntity.ok(detalleBoletaServicio.editarDetalleBoletaById(id, detalleBoletaActualizado));
+		return ResponseEntity.ok(assembler.toModel(detalleBoleta));
 	}
 	
 	@DeleteMapping("/{id}")
@@ -175,12 +181,12 @@ public class DetalleBoletaControllador {
 		        description = "detalle boleta no encontrada."
 		    )
 		})
-	public ResponseEntity<List<DetalleBoleta>> obtenerDetalleBoletaByIdBoleta(@PathVariable("id")int id){
+	public ResponseEntity<CollectionModel<EntityModel<DetalleBoleta>>> obtenerDetalleBoletaByIdBoleta(@PathVariable("id")int id){
 		List<DetalleBoleta> detalleBoletas = detalleBoletaServicio.obtenerDetalleBoletasByIdBoleta(id);
 		if(detalleBoletas == null) {
 			return ResponseEntity.noContent().build();
 		}	
-		return ResponseEntity.ok(detalleBoletas);
+		return ResponseEntity.ok(assembler.toCollection(detalleBoletas));
 	}
 	
 	
@@ -198,8 +204,8 @@ public class DetalleBoletaControllador {
 		        description = "detalle boleta no encontrada."
 		    )
 		})
-	public ResponseEntity<List<DetalleBoleta>> boletasProductoId(@PathVariable("productoid")int productoId){
+	public ResponseEntity<CollectionModel<EntityModel<DetalleBoleta>>> boletasProductoId(@PathVariable("productoid")int productoId){
 		List<DetalleBoleta> detalleBoletas = detalleBoletaServicio.boletasProducto(productoId);
-		return detalleBoletas == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(detalleBoletas);
+		return detalleBoletas == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(assembler.toCollection(detalleBoletas));
 	}
 }
