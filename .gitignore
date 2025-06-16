@@ -36,3 +36,9 @@ Thumbs.db
 # VSCode (si se usa también)
 .vscode/
 /.metadata
+.metadata/.lock_info
+/.metadata
+.metadata/.lock_info
+.metadata/.log
+.metadata/.lock_info
+.metadata/.plugins/org.eclipse.core.resources/.safetable/org.eclipse.core.resources
