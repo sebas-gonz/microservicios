@@ -16,8 +16,14 @@ import com.envio_perfulandia.dto.InventarioDTO;
 import com.envio_perfulandia.entidad.Inventario;
 import com.envio_perfulandia.servicio.InventarioServicio;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/inventario")
+@Tag(name = "inventario", description = "Operaciones relacionados con el inventario")
 public class InventarioControllador {
 
     private final RestTemplate restTemplate;
@@ -31,6 +37,11 @@ public class InventarioControllador {
 	
 	
 	@GetMapping("/")
+	@Operation(summary = "Obtener todos los invc", description = "Obtiene una lista de todos los usuarios.")
+	@ApiResponses(value = {
+	    @ApiResponse(responseCode = "200", description = "Lista de usuarios obtenida."),
+	    @ApiResponse(responseCode = "204", description = "No hay usuarios registrados.")
+	})
 	public ResponseEntity<List<Inventario>> Inventarios(){
 		List<Inventario> inventarios = servicio.obtenerInventarios();
 		return inventarios != null ? ResponseEntity.ok(inventarios) : ResponseEntity.noContent().build();
