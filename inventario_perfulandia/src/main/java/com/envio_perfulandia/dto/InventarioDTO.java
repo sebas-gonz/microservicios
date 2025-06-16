@@ -1,11 +1,21 @@
 package com.envio_perfulandia.dto;
 
-public class InventarioDTO {
-	private int inventarioId;
-    private int cantidadDisponible;
+import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(description = "DTO que representa el inventario con sus detalles")
+public class InventarioDTO {
+	@Schema(description = "ID único del inventario", example = "101")
+	private int inventarioId;
+	
+	@Schema(description = "la cantidad disponible de un producto en el inventario", example = "107")
+    private int cantidadDisponible;
+	
+	@Schema(description = "informacion del producto obtenido con exito en el inventario", example = "109")
     private ProductoDTO producto;
+    
+    @Schema(description = "informacion de la sucursal a base de inventario ", example = "112") 
     private SucursalDTO sucursal;
+    
 	public InventarioDTO() {
 		super();
 	}
