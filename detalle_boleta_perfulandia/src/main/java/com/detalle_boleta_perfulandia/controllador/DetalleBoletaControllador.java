@@ -181,12 +181,12 @@ public class DetalleBoletaControllador {
 		        description = "detalle boleta no encontrada."
 		    )
 		})
-	public ResponseEntity<CollectionModel<EntityModel<DetalleBoleta>>> obtenerDetalleBoletaByIdBoleta(@PathVariable("id")int id){
+	public ResponseEntity<List<DetalleBoleta>> obtenerDetalleBoletaByIdBoleta(@PathVariable("id")int id){
 		List<DetalleBoleta> detalleBoletas = detalleBoletaServicio.obtenerDetalleBoletasByIdBoleta(id);
 		if(detalleBoletas == null) {
 			return ResponseEntity.noContent().build();
 		}	
-		return ResponseEntity.ok(assembler.toCollection(detalleBoletas));
+		return ResponseEntity.ok(detalleBoletas);
 	}
 	
 	

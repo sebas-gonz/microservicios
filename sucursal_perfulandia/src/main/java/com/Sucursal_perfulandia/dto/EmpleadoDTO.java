@@ -4,7 +4,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "DTO que representa a un empleado.")
 public class EmpleadoDTO {
-
+	
+	@Schema(description = "ID único del empleado", example = "101")
+    private int empleadoId;
+	
     @Schema(description = "Nombre completo del empleado.", example = "Juan Pérez")
     private String nombre;
 
@@ -52,6 +55,12 @@ public class EmpleadoDTO {
 	}
 	public void setSucursalId(int sucursalId) {
 		this.sucursalId = sucursalId;
+	}
+	public int getEmpleadoId() {
+		return empleadoId;
+	}
+	public void setEmpleadoId(int empleadoId) {
+		this.empleadoId = empleadoId;
 	}
 	
 	
