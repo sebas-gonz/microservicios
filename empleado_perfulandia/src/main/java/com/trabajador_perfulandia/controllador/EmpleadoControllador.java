@@ -3,6 +3,8 @@ package com.trabajador_perfulandia.controllador;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.trabajador_perfulandia.config.EmpleadoAssembler;
 import com.trabajador_perfulandia.dto.BoletaDTO;
 import com.trabajador_perfulandia.entidad.Empleado;
 import com.trabajador_perfulandia.servicio.empleadoServicio;
@@ -28,6 +31,8 @@ public class EmpleadoControllador {
 	
 	@Autowired
 	private empleadoServicio servicio;
+	@Autowired
+	private EmpleadoAssembler EmpAssembler;
 	//Inicio1
 	@GetMapping("/")
 	@Operation(summary = "Obtener a todos los empleados", description = "Nos da una lista de los empleados")
@@ -35,12 +40,12 @@ public class EmpleadoControllador {
 	    @ApiResponse(responseCode = "200", description = "Lista de empleados obtenida."),
 	    @ApiResponse(responseCode = "204", description = "No hay empleados en la lista.")
 	})
-	public ResponseEntity<List<Empleado>> empleados(){
+	public ResponseEntity<CollectionModel<EntityModel<Empleado>>> empleados(){
 		List<Empleado> empleados = servicio.Empleados();
 		if(empleados.isEmpty()) {
 			return ResponseEntity.noContent().build();
 		}
-		return ResponseEntity.ok(empleados);
+		return ResponseEntity.ok(EmpAssembler.modelToCollection(empleados));
 	}
 	//Fin1
 	//Inicio2
@@ -80,9 +85,9 @@ public class EmpleadoControllador {
 		    example = "1"
 		)
 	@GetMapping("/{empleadoid}")
-	public ResponseEntity<Empleado> empleado(@PathVariable("empleadoid") int empleadoId){
+	public ResponseEntity<EntityModel<Empleado>> empleado(@PathVariable("empleadoid") int empleadoId){
 		Empleado empleado = servicio.EmpleadoPorId(empleadoId);
-		return empleado == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(empleado);
+		return empleado == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(EmpAssembler.toModel(empleado));
 	}
 	//Fin3
 	//Inicio4

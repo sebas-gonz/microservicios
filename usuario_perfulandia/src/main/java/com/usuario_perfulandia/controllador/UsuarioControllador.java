@@ -54,6 +54,7 @@ public class UsuarioControllador {
 	
 	
 	@GetMapping("/{id}")
+	
 	@Operation(
 	    summary = "Obtener un usuario por ID",
 	    description = "Retorna un usuario específico según su ID. Si no se encuentra, retorna código 404."
@@ -195,5 +196,4 @@ public class UsuarioControllador {
 		
 		return pedidos != null ? ResponseEntity.ok(pedidos) : ResponseEntity.notFound().build();
 	}
-	
 }

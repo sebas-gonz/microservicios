@@ -3,6 +3,8 @@ package com.envio_perfulandia.controllador;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.envio_perfulandia.config.EnvioAssembler;
 import com.envio_perfulandia.dto.EnvioDTO;
 import com.envio_perfulandia.entidad.Envio;
 import com.envio_perfulandia.servicio.EnvioServicio;
@@ -28,7 +31,7 @@ public class EnvioControllador {
 	
 	@Autowired
 	private EnvioServicio servicio;
-	
+	private EnvioAssembler EnvAssembler;
 	
 	
 	@GetMapping("/")
@@ -37,9 +40,9 @@ public class EnvioControllador {
 		    @ApiResponse(responseCode = "200", description = "Lista de envios obtenidos."),
 		    @ApiResponse(responseCode = "204", description = "No hay envios dentro sistema.")
 		})
-	public ResponseEntity<List<Envio>> Envios(){
+	public ResponseEntity<CollectionModel<EntityModel<Envio>>>Envios(){
 		List<Envio> envios = servicio.envios();
-		return envios == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(envios);
+		return envios == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(EnvAssembler.modeloToCollection(envios));
 	}
 	
 	@PostMapping("/pedido")
