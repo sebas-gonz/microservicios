@@ -1,1 +1,37 @@
-/.metadata/
+# Eclipse settings
+.metadata/
+*.tmp
+*.bak
+*.swp
+*~.nib
+.localhistory/
+.loadpath
+.recommenders/
+
+# Maven
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Logs
+*.log
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de compilación
+*.class
+
+# IDEs
+.idea/
+*.iml
+
+# Archivos temporales
+*.~*
+*.orig
+
+# Cache de navegadores embebidos (como EBWebView)
+**/EBWebView/**
+
+# VSCode (si se usa también)
+.vscode/
