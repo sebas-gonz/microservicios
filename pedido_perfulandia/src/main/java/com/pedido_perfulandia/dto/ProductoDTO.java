@@ -1,11 +1,18 @@
 package com.pedido_perfulandia.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(name = "ProductoDTO", description = "DTO que representa la entidad producto")
 public class ProductoDTO {
+	    @Schema(description = "Representa el id del producto DTO", example="1")
 	    private int idproducto;
+	    @Schema(description = "Representa el nombre del producto DTO", example="Gio pefum")
 	    private String nombreproducto;
+	    @Schema(description = "Representa la categoria del producto DTO", example="Perfume")
 	    private String categoria;
+	    @Schema(description = "Representa la id de la sucursal vinculada al producto", example="1")
 	    private int sucursalId;
-	   
+	    @Schema(description = "Representa el precio del producto DTO", example="25000")
 	    private int precio;
 	    
 		public ProductoDTO() {
