@@ -10,7 +10,6 @@ import com.usuario_perfulandia.repositorio.UsuarioRepository;
 
 import net.datafaker.Faker;
 
-
 @Component
 public class UsuarioFaker implements CommandLineRunner{
 	@Value("${dataloader.habilitado:false}")
