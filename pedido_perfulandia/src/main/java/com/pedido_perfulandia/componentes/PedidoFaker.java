@@ -28,7 +28,7 @@ public class PedidoFaker implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 		// TODO Auto-generated method stub
-		Boolean activar = true;
+		Boolean activar = false;
 		if(activar != true) {
 			return;
 		}

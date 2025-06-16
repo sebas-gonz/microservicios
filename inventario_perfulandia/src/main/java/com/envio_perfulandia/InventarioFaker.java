@@ -14,7 +14,7 @@ public class InventarioFaker implements CommandLineRunner{
 
 	@Autowired
 	private InventarioRepository repositorioInventario;
-    boolean Activo = true;
+    boolean Activo = false;
 
 
 	
