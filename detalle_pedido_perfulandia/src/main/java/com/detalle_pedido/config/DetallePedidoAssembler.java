@@ -6,11 +6,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import java.util.List;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.hateoas.CollectionModel;
 
 import com.detalle_pedido.controllador.DetallePedidoControllador;
 import com.detalle_pedido.entidad.DetallePedido;
 
+@Configuration
 public class DetallePedidoAssembler implements RepresentationModelAssembler<DetallePedido, EntityModel<DetallePedido>>{
 	
 	@Override
