@@ -114,11 +114,8 @@ public class SucuController {
 	required = true,
 	example = "1")
     public ResponseEntity<EntityModel<Sucursal>> actualizarSucursal(@PathVariable("id") int id, @RequestBody Sucursal sucursal){
-        Sucursal sucuBuscar = serviceSucursal.buscarIdSucu(id);
-        if(sucuBuscar == null){
-            return ResponseEntity.notFound().build();
-        }
-        serviceSucursal.actualizarSucursal(sucursal, sucuBuscar);
+
+        serviceSucursal.actualizarSucursal(sucursal, id);
         return ResponseEntity.ok(assembler.toModel(sucursal));
     }
     

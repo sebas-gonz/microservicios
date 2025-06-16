@@ -45,3 +45,10 @@ Thumbs.db
 /.metadata
 *.index
 /.metadata
+*.dat
+*.properties
+*.ser
+.metadata/.plugins/org.eclipse.m2e.core/workspacestate.properties
+*.container
+.metadata/.plugins/org.eclipse.m2e.jdt/usuario_perfulandia.container
+*.index
