@@ -42,3 +42,4 @@ Thumbs.db
 .metadata/.log
 .metadata/.lock_info
 .metadata/.plugins/org.eclipse.core.resources/.safetable/org.eclipse.core.resources
+/.metadata

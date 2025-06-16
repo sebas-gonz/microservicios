@@ -11,6 +11,6 @@ import com.envio_perfulandia.entidad.Inventario;
 public interface InventarioRepository extends JpaRepository<Inventario, Integer>{
 	List<Inventario> findByProductoId(int productoId);;
 	List<Inventario> findBySucursalId(int sucursalId);
-	List<Inventario> findBySucursalIdAndInventarioId(int sucursalId, int inventarioId);
+	List<Inventario> findBySucursalIdAndProductoId(int sucursalId, int productoId);
 	
 }
