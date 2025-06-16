@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.boleta_perfulandia.configuracion.BoletaAssembler;
 import com.boleta_perfulandia.dto.BoletaDTO;
 import com.boleta_perfulandia.dto.DetalleBoletaDTO;
 import com.boleta_perfulandia.entidades.Boleta;
@@ -31,18 +34,21 @@ public class BoletaControllador {
 	@Autowired
 	private BoletaServicio boletaServicio;
 	
+	@Autowired
+	private BoletaAssembler assembler;
+	
 	@GetMapping("/")
 	@Operation(summary = "Obtener todas las boletas", description = "Obtiene una lista das las boletas.")
 	@ApiResponses(value = {
 	    @ApiResponse(responseCode = "200", description = "Lista de boletas."),
 	    @ApiResponse(responseCode = "500", description = "No hay boletas registradas.")
 	})
-	public ResponseEntity<List<Boleta>> obtenerBoletas(){
+	public ResponseEntity<CollectionModel<EntityModel<Boleta>>> obtenerBoletas(){
 		List<Boleta> boletas = boletaServicio.obtenerBoletas();
 		if(boletas.isEmpty()) {
 			return ResponseEntity.noContent().build();
 		}
-		return ResponseEntity.ok(boletas);
+		return ResponseEntity.ok(assembler.modelToCollection(boletas));
 	}
 	
 	@GetMapping("/{id}")
@@ -65,11 +71,11 @@ public class BoletaControllador {
 		    required = true,
 		    example = "1"
 		)
-	public ResponseEntity<Boleta> obtenerBoleta(@PathVariable("id") int id){
+	public ResponseEntity<EntityModel<Boleta>> obtenerBoleta(@PathVariable("id") int id){
 		if( boletaServicio.boletaById(id).equals(null)) {
 			return ResponseEntity.noContent().build();
 		}
-		return ResponseEntity.ok(boletaServicio.boletaById(id));
+		return ResponseEntity.ok(assembler.toModel(boletaServicio.boletaById(id)));
 	}
 	
 	@PostMapping("/")
@@ -86,8 +92,8 @@ public class BoletaControllador {
 		        description = "Datos dela boleta erroneas."
 		    )
 		})
-	public ResponseEntity<Boleta> crearBoleta(@RequestBody Boleta boleta){
-		return ResponseEntity.ok(boletaServicio.crearBoleta(boleta));
+	public ResponseEntity<EntityModel<Boleta>> crearBoleta(@RequestBody Boleta boleta){
+		return ResponseEntity.ok(assembler.toModel(boletaServicio.crearBoleta(boleta)));
 	}
 	
 	@PostMapping("/pedido")
@@ -104,8 +110,8 @@ public class BoletaControllador {
 		        description = "Datos dela boleta erroneas."
 		    )
 		})
-	public ResponseEntity<Boleta> crearBoleta(@RequestBody BoletaDTO boletaDTO){
-		return ResponseEntity.ok(boletaServicio.crearBoletaPorPedido(boletaDTO));
+	public ResponseEntity<EntityModel<Boleta>> crearBoleta(@RequestBody BoletaDTO boletaDTO){
+		return ResponseEntity.ok(assembler.toModel(boletaServicio.crearBoletaPorPedido(boletaDTO)));
 		
 	}
 	
@@ -189,12 +195,12 @@ public class BoletaControllador {
 		        description = "boleta no encontrada."
 		    )
 		})
-	public ResponseEntity<Boleta> editarBoleta(@PathVariable("id") int id,@RequestBody Boleta boleta){
+	public ResponseEntity<EntityModel<Boleta>> editarBoleta(@PathVariable("id") int id,@RequestBody Boleta boleta){
 		if(boletaServicio.boletaById(id).equals(null)) {
 			return ResponseEntity.noContent().build();
 		}
-		boletaServicio.editarBoletaById(id, boleta);
-		return ResponseEntity.ok(boleta);
+		Boleta boletaAct =  boletaServicio.editarBoletaById(id, boleta);
+		return ResponseEntity.ok(assembler.toModel(boletaAct));
 	}
 	
 	@GetMapping("/detalle/{id}")
@@ -274,9 +280,9 @@ public class BoletaControllador {
 		        description = "no se obtuvo la boleta segun la id del empleado"
 		    )
 		})
-	public ResponseEntity<List<Boleta>> boletasEmpleado(@PathVariable("empleadoid")int empleadoId){
+	public ResponseEntity<CollectionModel<EntityModel<Boleta>>> boletasEmpleado(@PathVariable("empleadoid")int empleadoId){
 		List<Boleta> boletas = boletaServicio.boletasEmpleado(empleadoId);
-		return boletas == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(boletas);
+		return boletas == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(assembler.toCollectionModel(boletas));
 	}
 	
 	@GetMapping("/pedido/{pedidoid}")
@@ -293,8 +299,8 @@ public class BoletaControllador {
 		        description = "no se obtuvo la boleta segun la id del pedido"
 		    )
 		})
-	public ResponseEntity<Boleta> boletaPorPedidodId(@PathVariable("pedidoid")int pedidoId){
+	public ResponseEntity<EntityModel<Boleta>> boletaPorPedidodId(@PathVariable("pedidoid")int pedidoId){
 		Boleta boleta = boletaServicio.boletaByPedidoId(pedidoId);
-		return boleta != null ? ResponseEntity.ok(boleta) : ResponseEntity.noContent().build();
+		return boleta != null ? ResponseEntity.ok(assembler.toModel(boleta)) : ResponseEntity.noContent().build();
 	}
 }
