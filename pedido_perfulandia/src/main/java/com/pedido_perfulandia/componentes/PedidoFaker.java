@@ -21,9 +21,6 @@ public class PedidoFaker implements CommandLineRunner{
 	@Autowired
 	private PedidoServicio servicio;
 	
-	@Autowired 
-	
-	private PedidoRespositorio repositorio;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -33,13 +30,9 @@ public class PedidoFaker implements CommandLineRunner{
 			return;
 		}
 		
-		
 		Faker faker = new Faker();
-		String[] estadoPedido = {"Pendiente","Preparado","Enviado"};
-		for(int i = 0; i < 2; i++) {
+		for(int i = 0; i < 1; i++) {
 			PedidoDTO pedidoDTO = new PedidoDTO();
-
-	        pedidoDTO.setEstado(estadoPedido[faker.number().numberBetween(0, 3)]); 
 
 	        List<DetallePedidoDTO> detalles = new ArrayList<>();
 

@@ -101,12 +101,14 @@ public class BoletaServicio {
 			boletaDTO.setTotal(boleta.getTotal());
 			boletaDTO.setNombreSucursal(boleta.getNombreSucursal());
 			boletaDTO.setNombreUsuario(boleta.getNombreUsuario());
+			boletaDTO.setEmpleadoId(boleta.getEmpleadoId());
+			boletaDTO.setNombreEmpleado(boleta.getNombreEmpleado());
 			String url = "http://localhost:8084/detalle_boleta/boleta/" + boleta.getBoletaId();
 			DetalleBoletaDTO[] detalleBoletas = perfulandiaConfig.restTemplate().getForObject(url, DetalleBoletaDTO[].class);
 			boletaDTO.setDetalleBoletas(Arrays.asList(detalleBoletas));
 			boletasDTO.add(boletaDTO);
 		}
-		return boletasDTO == null ? null : boletasDTO;
+		return boletas.isEmpty() ? null : boletasDTO;
 	}
 	public List<Integer> usuariosSucursal(int sucursalId){
 		List<Boleta> boletas = boletaRepository.findBySucursalId(sucursalId);

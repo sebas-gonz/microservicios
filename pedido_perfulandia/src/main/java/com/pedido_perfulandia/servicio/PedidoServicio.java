@@ -97,13 +97,15 @@ public class PedidoServicio {
 	    }
 	}
 	
-	private void crearBoleta(Pedido pedido, UsuarioDTO usuario, SucursalDTO sucursal, List<DetallePedidoDTO> detallesPedidos) {
+	private void crearBoleta(Pedido pedido, UsuarioDTO usuario, SucursalDTO sucursal, List<DetallePedidoDTO> detallesPedidosDTO) {
 	    try {
-	        String urlEmpleado = "http://localhost:8088/api/sucursal/" + pedido.getSucursalId() + "/empleados";
+	        String urlEmpleado = "http://localhost:8088/api/sucursal/" + sucursal.getSucursalId() + "/empleados";
 	        EmpleadoDTO[] empleados = restTemplate.getForObject(urlEmpleado, EmpleadoDTO[].class);
+	        
+	        List<DetallePedidoDTO> detalles = detallesPedidosDTO;
 
 	        EmpleadoDTO empleadoSelec = null;
-	        if (empleados != null && empleados.length > 0) {
+	        if (empleados != null && empleados.length >= 0) {
 	            Random random = new Random();
 	            empleadoSelec = empleados[random.nextInt(empleados.length)];
 	        }
@@ -118,7 +120,7 @@ public class PedidoServicio {
 	        boleta.setNombreSucursal(sucursal.getDireccion());
 
 	        int total = 0;
-	        for (DetallePedidoDTO detalle : detallesPedidos) {
+	        for (DetallePedidoDTO detalle : detalles) {
 	            String urlProducto = "http://localhost:8088/api/producto/" + detalle.getProductoId();
 	            ProductoDTO producto = restTemplate.getForObject(urlProducto, ProductoDTO.class);
 	            total += producto.getPrecio() * detalle.getCantidad();
@@ -131,7 +133,7 @@ public class PedidoServicio {
 	        String urlBoleta = "http://localhost:8088/api/boleta/pedido/" + pedido.getPedidoId();
 	        BoletaDTO boletaGenerada = restTemplate.getForObject(urlBoleta, BoletaDTO.class);
 
-	        crearDetallesBoleta(boletaGenerada, detallesPedidos);
+	        crearDetallesBoleta(boletaGenerada, detalles);
 	        
 	        crearEnvio(boletaGenerada,pedido,usuario);
 	        
@@ -171,7 +173,7 @@ public class PedidoServicio {
 	            DetalleBoletaDTO detalleBoleta = new DetalleBoletaDTO();
 	            detalleBoleta.setBoletaId(boleta.getBoletaId());
 	            detalleBoleta.setProductoId(detallePedido.getProductoId());
-	            detalleBoleta.setNombreProducto(producto.getNombreproducto());
+	            detalleBoleta.setNombreProducto(producto.getNombreProducto());
 	            detalleBoleta.setCantidad(detallePedido.getCantidad());
 	            detalleBoleta.setSubtotal(detallePedido.getCantidad() * producto.getPrecio());
 
