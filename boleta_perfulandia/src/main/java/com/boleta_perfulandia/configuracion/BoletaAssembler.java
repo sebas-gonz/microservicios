@@ -1,24 +1,20 @@
 package com.boleta_perfulandia.configuracion;
 
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.server.RepresentationModelAssembler;
-import org.springframework.stereotype.Component;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.util.List;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.RepresentationModelAssembler;
 
 import com.boleta_perfulandia.controllador.BoletaControllador;
 import com.boleta_perfulandia.entidades.Boleta;
-@Component
+@Configuration
 public class BoletaAssembler implements RepresentationModelAssembler<Boleta, EntityModel<Boleta>>{
 
-    private final BoletaControllador boletaControllador;
-
-    BoletaAssembler(BoletaControllador boletaControllador) {
-        this.boletaControllador = boletaControllador;
-    }
 
 	@Override
 	public EntityModel<Boleta> toModel(Boleta boleta) {
