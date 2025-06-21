@@ -12,7 +12,6 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "Identificador único del usuario.", example = "1")
     private int usuario_id;
 
     @Schema(description = "Nombre del usuario.", example = "Juan")

@@ -52,3 +52,7 @@ Thumbs.db
 *.container
 .metadata/.plugins/org.eclipse.m2e.jdt/usuario_perfulandia.container
 *.index
+/.metadata
+*.index
+*.ini
+/.metadata/.plugins
