@@ -44,13 +44,14 @@ public class ServiceSucursal {
         sucursalRepository.deleteById(idSucursal);
     }
 
-    public Sucursal actualizarSucursal(Sucursal sucursal, Sucursal sucuBuscar) {
-        if(sucursal.equals(null)){
-            return null;
+    public Sucursal actualizarSucursal(Sucursal sucursal, int sucursalId) {
+    	Sucursal sucursalAct = sucursalRepository.findById(sucursalId).orElse(null);
+        if(sucursalAct != null){
+        	sucursalAct.setDireccion(sucursal.getDireccion());
+            sucursalAct.setNumeroTelefono(sucursal.getNumeroTelefono());
+            return sucursalRepository.save(sucursalAct);
         }
-        sucuBuscar.setDireccion(sucursal.getDireccion());
-        sucuBuscar.setNumeroTelefono(sucursal.getNumeroTelefono());
-        return sucursalRepository.save(sucuBuscar);
+        return sucursalAct;
 
     }
     
@@ -82,9 +83,9 @@ public class ServiceSucursal {
     
     public List<InventarioDTO> inventariosSucursal(int sucursalId){
     	try {
-    		InventarioDTO[] inventarios = perfumelandiaConfig.restTemplate().getForObject("http://localhost:8088/api/inventario " + sucursalId, InventarioDTO[].class);
+    		InventarioDTO[] inventarios = perfumelandiaConfig.restTemplate().getForObject("http://localhost:8088/api/inventario/sucursal/" + sucursalId, InventarioDTO[].class);
     		for(InventarioDTO inventario : inventarios) {
-    			ProductoDTO producto = perfumelandiaConfig.restTemplate().getForObject("http://localhost:8088/api/producto" + inventario.getProductoId(), ProductoDTO.class);
+    			ProductoDTO producto = perfumelandiaConfig.restTemplate().getForObject("http://localhost:8088/api/producto/" + inventario.getProductoId(), ProductoDTO.class);
     			inventario.setProducto(producto);
     		}
     		return inventarios == null ? null : Arrays.asList(inventarios);
@@ -113,15 +114,21 @@ public class ServiceSucursal {
     }
    
     
-    public List<PedidoDTO> pedidosPorSucursal(int sucursalId){
+    @SuppressWarnings("null")
+	public List<PedidoDTO> pedidosPorSucursal(int sucursalId){
     	PedidoDTO[] pedidos = perfumelandiaConfig.restTemplate().getForObject("http://localhost:8087/pedido/sucursal/" + sucursalId, PedidoDTO[].class);
-    	for(PedidoDTO pedido : pedidos) {
-    		DetallePedidoDTO[] detalles = perfumelandiaConfig.restTemplate().getForObject("http://localhost:8085/detalle_pedido/pedido/" + pedido.getPedidoId(), DetallePedidoDTO[].class);
-    		for(DetallePedidoDTO detalle : detalles) {
-    			ProductoDTO producto = perfumelandiaConfig.restTemplate().getForObject("http://localhost:8088/api/producto/" + detalle.getProductoId(), ProductoDTO.class);
-    			detalle.setProducto(producto);
-    		}
-    		pedido.setDetalles(Arrays.asList(detalles));
+    	if(pedidos != null) {
+    		for(PedidoDTO pedido : pedidos) {
+    			UsuarioDTO usuario = perfumelandiaConfig.restTemplate().getForObject("http://localhost:8088/api/usuario/" + pedido.getUsuarioId(), UsuarioDTO.class);
+    			pedido.setUsuario(usuario);
+    			 
+        		DetallePedidoDTO[] detalles = perfumelandiaConfig.restTemplate().getForObject("http://localhost:8085/detalle_pedido/pedido/" + pedido.getPedidoId(), DetallePedidoDTO[].class);
+        		for(DetallePedidoDTO detalle : detalles) {
+        			ProductoDTO producto = perfumelandiaConfig.restTemplate().getForObject("http://localhost:8088/api/producto/" + detalle.getProductoId(), ProductoDTO.class);
+        			detalle.setProducto(producto);
+        		}
+        		pedido.setDetalles(Arrays.asList(detalles));
+        	}
     	}
     	return pedidos != null ? Arrays.asList(pedidos) : null;
     }

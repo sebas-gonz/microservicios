@@ -2,15 +2,26 @@ package com.envio_perfulandia.dto;
 
 import java.time.LocalDateTime;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+@Schema(description = "Entidad que representa los atributos DTO")
 public class EnvioDTO {
+	@Schema(description = "Representa el id del envio", example="1")
 	private int envioId;
+	@Schema(description = "Representa el id de la boleta", example="2")
     private int boletaId;
+	@Schema(description = "Representa el id del pedido", example="1")
     private int pedidoId;
+	@Schema(description = "Representa el id del usuario", example="1")
     private int usuarioId;
+	@Schema(description = "Representa el id de la sucursal", example="1")
     private int sucursalId;
+	@Schema(description = "Representa la direccion del envio", example="Av.Manuel V.")
     private String direccionEnvio;
+	@Schema(description = "Representa el estado en el que se encuentra el pedido", example="Cancelado")
     private String estado; 
+	@Schema(description = "Repreeenta la fecha de envio", example="15-06-2025")
     private LocalDateTime fechaEnvio;
+	@Schema(description = "Representa la fecha de entrega del envio", example="16-06-2025")
     private LocalDateTime fechaEntrega;
     
 	public EnvioDTO() {

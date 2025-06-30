@@ -1,13 +1,24 @@
 package com.detalle_pedido.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(name = "ProductoDTO", description = "DTO que representa un producto con información básica y cantidad disponible")
 public class ProductoDTO {
+
+    @Schema(description = "ID único del producto", example = "101")
     private int idproducto;
-    private String nombreproducto;
+
+    @Schema(description = "Nombre del producto", example = "Audífonos inalámbricos")
+    private String nombreProducto;
+
+    @Schema(description = "Categoría del producto", example = "Electrónica")
     private String categoria;
+
+    @Schema(description = "Cantidad disponible del producto", example = "45")
     private int cantidad;
+
+    @Schema(description = "Precio del producto", example = "19990")
     private int precio;
-    
 	public ProductoDTO() {
 		super();
 	}
@@ -19,12 +30,12 @@ public class ProductoDTO {
 		this.idproducto = idproducto;
 	}
 
-	public String getNombreproducto() {
-		return nombreproducto;
+	public String getNombreProducto() {
+		return nombreProducto;
 	}
 
-	public void setNombreproducto(String nombreproducto) {
-		this.nombreproducto = nombreproducto;
+	public void setNombreProducto(String nombreproducto) {
+		this.nombreProducto = nombreproducto;
 	}
 
 	public String getCategoria() {

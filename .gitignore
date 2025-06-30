@@ -1,2 +1,60 @@
 /.metadata
 /pedido_perfulandia/logs
+# Eclipse settings
+.metadata/
+*.tmp
+*.bak
+*.swp
+*~.nib
+.localhistory/
+.loadpath
+.recommenders/
+
+# Maven
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Logs
+*.log
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de compilación
+*.class
+
+# IDEs
+.idea/
+*.iml
+
+# Archivos temporales
+*.~*
+*.orig
+
+# Cache de navegadores embebidos (como EBWebView)
+**/EBWebView/**
+
+# VSCode (si se usa también)
+.vscode/
+/.metadata
+.metadata/.lock_info
+/.metadata
+.metadata/.lock_info
+.metadata/.log
+.metadata/.lock_info
+.metadata/.plugins/org.eclipse.core.resources/.safetable/org.eclipse.core.resources
+/.metadata
+*.index
+/.metadata
+*.dat
+*.properties
+*.ser
+.metadata/.plugins/org.eclipse.m2e.core/workspacestate.properties
+*.container
+.metadata/.plugins/org.eclipse.m2e.jdt/usuario_perfulandia.container
+*.index
+/.metadata
+*.index
+*.ini
+/.metadata/.plugins

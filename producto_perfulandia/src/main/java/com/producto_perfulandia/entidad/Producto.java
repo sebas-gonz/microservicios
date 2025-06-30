@@ -1,14 +1,25 @@
 package com.producto_perfulandia.entidad;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 @Entity
+@Schema(description = "Entidad que representa un producto disponible en el sistema")
 public class Producto {
+
+    @Id
+    @Schema(description = "ID único del producto", example = "101")
     private int idproducto;
+
+    @Schema(description = "Nombre del producto", example = "Perfume Aromax 50ml")
     private String nombreProducto;
+
+    @Schema(description = "Categoría a la que pertenece el producto", example = "Perfumería")
     private String categoria;
+
+    @Schema(description = "Precio unitario del producto en pesos chilenos", example = "14990")
     private int precio;
     
 	public Producto() {

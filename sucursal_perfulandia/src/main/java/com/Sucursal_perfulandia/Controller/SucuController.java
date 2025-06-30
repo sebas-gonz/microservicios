@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -84,7 +83,7 @@ public class SucuController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Eliminar un usuario ", description = "Eliminar un usuario en especifico mediante el id")
+    @Operation(summary = "Eliminar una sucursal ", description = "Eliminar una sucursal en especifico mediante el id")
     @ApiResponses(value = {
     		@ApiResponse(responseCode = "204", description = "Sucursal eliminada correctamente"),
     		@ApiResponse(responseCode = "404", description = "")
@@ -115,11 +114,8 @@ public class SucuController {
 	required = true,
 	example = "1")
     public ResponseEntity<EntityModel<Sucursal>> actualizarSucursal(@PathVariable("id") int id, @RequestBody Sucursal sucursal){
-        Sucursal sucuBuscar = serviceSucursal.buscarIdSucu(id);
-        if(sucuBuscar == null){
-            return ResponseEntity.notFound().build();
-        }
-        serviceSucursal.actualizarSucursal(sucursal, sucuBuscar);
+
+        serviceSucursal.actualizarSucursal(sucursal, id);
         return ResponseEntity.ok(assembler.toModel(sucursal));
     }
     
@@ -168,7 +164,7 @@ public class SucuController {
         @ApiResponse(responseCode = "204", description = "La sucursal no tiene productos en inventario"),
         @ApiResponse(responseCode = "404", description = "Sucursal no encontrada"),
     })
-    @Parameter(name = "id", description = "Identificador primario de la sucursal",
+    @Parameter(name = "sucursalid", description = "Identificador primario de la sucursal",
 	required = true,
 	example = "1")
     public ResponseEntity<List<InventarioDTO>> inventarioSucursal(@PathVariable("sucursalid")int sucursalId){

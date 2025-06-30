@@ -33,36 +33,49 @@ public class PedidoServicio {
 	@Autowired
 	private RestTemplate restTemplate;
 	
+	
+	
+	
 	public Pedido crearPedido(PedidoDTO pedidoDTO) {
 	    try {
 	        Pedido pedido = new Pedido();
 	        pedido.setUsuarioId(pedidoDTO.getUsuarioId());
 	        pedido.setSucursalId(pedidoDTO.getSucursalId());
 	        
+	        boolean esPosible = true;
 	        
-	        int pedidoId = pedido.getPedidoId();
-	        boolean pedidoPosible = true;
 	        List<DetallePedidoDTO> detallesPedidos = pedidoDTO.getDetalles();
+	        
+	        for (DetallePedidoDTO detalle : detallesPedidos) {
+	            String urlInventario = "http://localhost:8090/inventario/" + pedido.getSucursalId() + "/" + detalle.getProductoId();
+	            InventarioDTO[] inventarios = restTemplate.getForObject(urlInventario, InventarioDTO[].class);
+	            if(inventarios == null) {
+	            	return null;
+	            }
+	            for(InventarioDTO inventario : inventarios) {
+	            	if(inventario.getCantidadDisponible() < detalle.getCantidad()) {
+	            		esPosible = false;
+	            	}
+	            }
+	        }
+	        if(esPosible != true) {
+	        	return null;
+	        }
+	        //------------------------------------------------------------
+	        respositorio.save(pedido);
+	        int pedidoId = pedido.getPedidoId();
+	        
 	        for (DetallePedidoDTO detalle : detallesPedidos) {
 	            detalle.setPedidoId(pedidoId);
 	            
-	            String urlInventario = "http://localhost:8090/inventario/producto"+ detalle.getProductoId();
-	            InventarioDTO inventario = restTemplate.getForObject(urlInventario, InventarioDTO.class);
-	            if(inventario.getCantidadDisponible() < detalle.getCantidad()) {
-	               pedidoPosible = false;
-	            }
-	            else {
+	            String urlInventario = "http://localhost:8090/inventario/" + pedido.getSucursalId() + "/" + detalle.getProductoId();
+	            InventarioDTO[] inventarios = restTemplate.getForObject(urlInventario, InventarioDTO[].class);
+	            for(InventarioDTO inventario : inventarios) {
 	            	inventario.setCantidadDisponible(inventario.getCantidadDisponible() - detalle.getCantidad());
-	            	
 	            }
-	            
-	        }
-	        if(pedidoPosible != true) {
-	        	return null;
-	        }
-	        respositorio.save(pedido);
-	        
-	        String urlDetalle = "http://localhost:8085/detalle_pedido/pedido";
+	            restTemplate.postForObject("http://localhost:8090/inventario/pedido", Arrays.asList(inventarios), Void.class);
+	        }	    
+	        String urlDetalle = "http://localhost:8088/api/detalle_pedido/pedido";
 	        restTemplate.postForObject(urlDetalle, detallesPedidos, Void.class);
              
 	        String urlUsuario = "http://localhost:8088/api/usuario/" + pedido.getUsuarioId();
@@ -84,13 +97,15 @@ public class PedidoServicio {
 	    }
 	}
 	
-	private void crearBoleta(Pedido pedido, UsuarioDTO usuario, SucursalDTO sucursal, List<DetallePedidoDTO> detallesPedidos) {
+	private void crearBoleta(Pedido pedido, UsuarioDTO usuario, SucursalDTO sucursal, List<DetallePedidoDTO> detallesPedidosDTO) {
 	    try {
-	        String urlEmpleado = "http://localhost:8088/api/sucursal/" + pedido.getSucursalId() + "/empleados";
+	        String urlEmpleado = "http://localhost:8088/api/sucursal/" + sucursal.getSucursalId() + "/empleados";
 	        EmpleadoDTO[] empleados = restTemplate.getForObject(urlEmpleado, EmpleadoDTO[].class);
+	        
+	        List<DetallePedidoDTO> detalles = detallesPedidosDTO;
 
 	        EmpleadoDTO empleadoSelec = null;
-	        if (empleados != null && empleados.length > 0) {
+	        if (empleados != null && empleados.length >= 0) {
 	            Random random = new Random();
 	            empleadoSelec = empleados[random.nextInt(empleados.length)];
 	        }
@@ -105,7 +120,7 @@ public class PedidoServicio {
 	        boleta.setNombreSucursal(sucursal.getDireccion());
 
 	        int total = 0;
-	        for (DetallePedidoDTO detalle : detallesPedidos) {
+	        for (DetallePedidoDTO detalle : detalles) {
 	            String urlProducto = "http://localhost:8088/api/producto/" + detalle.getProductoId();
 	            ProductoDTO producto = restTemplate.getForObject(urlProducto, ProductoDTO.class);
 	            total += producto.getPrecio() * detalle.getCantidad();
@@ -118,7 +133,7 @@ public class PedidoServicio {
 	        String urlBoleta = "http://localhost:8088/api/boleta/pedido/" + pedido.getPedidoId();
 	        BoletaDTO boletaGenerada = restTemplate.getForObject(urlBoleta, BoletaDTO.class);
 
-	        crearDetallesBoleta(boletaGenerada, detallesPedidos);
+	        crearDetallesBoleta(boletaGenerada, detalles);
 	        
 	        crearEnvio(boletaGenerada,pedido,usuario);
 	        
@@ -158,7 +173,7 @@ public class PedidoServicio {
 	            DetalleBoletaDTO detalleBoleta = new DetalleBoletaDTO();
 	            detalleBoleta.setBoletaId(boleta.getBoletaId());
 	            detalleBoleta.setProductoId(detallePedido.getProductoId());
-	            detalleBoleta.setNombreProducto(producto.getNombreproducto());
+	            detalleBoleta.setNombreProducto(producto.getNombreProducto());
 	            detalleBoleta.setCantidad(detallePedido.getCantidad());
 	            detalleBoleta.setSubtotal(detallePedido.getCantidad() * producto.getPrecio());
 
@@ -174,22 +189,9 @@ public class PedidoServicio {
 	}
 	
 	
-	public PedidoDTO pedidoById(int pedidoId) {
+	public Pedido pedidoById(int pedidoId) {
 		Pedido pedido = respositorio.findById(pedidoId).orElse(null);
-		if(pedido != null) {
-			PedidoDTO pedidoDTO = new PedidoDTO();
-			String urlDetallePedido = "http://localhost:8085/detalle_pedido/pedido/" + pedidoId;
-			DetallePedidoDTO[] detalles = restTemplate.getForObject(urlDetallePedido, DetallePedidoDTO[].class);
-			
-			pedidoDTO.setFechaPedido(pedido.getFechaPedido());
-			pedidoDTO.setEstado(pedido.getEstado());
-			pedidoDTO.setSucursalId(pedido.getSucursalId());
-			pedidoDTO.setUsuarioId(pedido.getUsuarioId());
-			pedidoDTO.setDetalles(Arrays.asList(detalles));
-			pedidoDTO.setPedidoId(pedidoId);
-			return pedidoDTO;
-		}
-		return null;
+		return pedido;
 	}
 	
 	public List<Pedido> pedidos(){

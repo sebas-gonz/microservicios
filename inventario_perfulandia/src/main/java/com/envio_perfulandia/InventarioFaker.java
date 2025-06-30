@@ -12,17 +12,11 @@ import net.datafaker.Faker;
 @Component
 public class InventarioFaker implements CommandLineRunner{
 
-    private final PerfulandiaConfig perfulandiaConfig;
-	
 	@Autowired
 	private InventarioRepository repositorioInventario;
     boolean Activo = false;
 
 
-    InventarioFaker(PerfulandiaConfig perfulandiaConfig) {
-        this.perfulandiaConfig = perfulandiaConfig;
-    }
-    
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -32,12 +26,14 @@ public class InventarioFaker implements CommandLineRunner{
 		}
 		else {
 			Faker faker = new Faker();
-			for(int i = 0; i < 21; i++) {
-				Inventario inventario = new Inventario();
-				inventario.setProductoId(faker.number().numberBetween(1, 25));
-				inventario.setCantidadDisponible(faker.number().numberBetween(1, 200));
-				inventario.setSucursalId(faker.number().numberBetween(1, 25));
-				repositorioInventario.save(inventario);
+			for (int productoId = 1; productoId <= 30; productoId++) {
+			    for (int sucursalId = 1; sucursalId <= 30; sucursalId++) {
+			        Inventario inventario = new Inventario();
+			        inventario.setProductoId(productoId);
+			        inventario.setSucursalId(sucursalId);
+			        inventario.setCantidadDisponible(faker.number().numberBetween(100, 200));
+			        repositorioInventario.save(inventario);
+			    }
 			}
 			
 		}

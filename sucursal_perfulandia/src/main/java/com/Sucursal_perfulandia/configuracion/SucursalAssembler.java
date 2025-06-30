@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import com.Sucursal_perfulandia.Controller.SucuController;
@@ -34,9 +35,10 @@ public class SucursalAssembler implements RepresentationModelAssembler<Sucursal,
 	
 	public CollectionModel<EntityModel<Sucursal>> modelToCollection(List<Sucursal> sucursales){
 			List<EntityModel<Sucursal>> sucursalesModel = sucursales.stream().map(this::toModel).toList();
-		
 		return CollectionModel.of(sucursalesModel,
 				linkTo(methodOn(SucuController.class).cargarSucursales()).withSelfRel());
 	}
+	
+	
 
 }

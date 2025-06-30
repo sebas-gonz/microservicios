@@ -1,14 +1,27 @@
 package com.producto_perfulandia.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(description = "Detalle de un producto incluido en una boleta de compra")
 public class DetalleBoletaDTO {
-	
-	private int productoId;
-	private String nombre_producto;
-	private int detalleBoletaId;
-	private int cantidad;
-	private int subtotal;
-	private int boletaId;
+
+    @Schema(description = "ID del producto comprado", example = "101")
+    private int productoId;
+
+    @Schema(description = "Nombre del producto", example = "Perfume Aromax 50ml")
+    private String nombre_producto;
+
+    @Schema(description = "ID del detalle de boleta", example = "5001")
+    private int detalleBoletaId;
+
+    @Schema(description = "Cantidad de unidades compradas", example = "2")
+    private int cantidad;
+
+    @Schema(description = "Subtotal por este producto (cantidad x precio unitario)", example = "29980")
+    private int subtotal;
+
+    @Schema(description = "ID de la boleta a la que pertenece este detalle", example = "3001")
+    private int boletaId;
 	
 	public int getBoletaId() {
 		return boletaId;

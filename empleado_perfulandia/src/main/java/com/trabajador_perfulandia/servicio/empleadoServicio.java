@@ -37,7 +37,9 @@ public class empleadoServicio {
 	public Empleado EmpleadoPorId(int empleadoId) {
 		return repositorio.findById(empleadoId).orElse(null);
 	}
-	
+	public Empleado empleadoPorRut(String rut){
+		return (Empleado) repositorio.findByrut(rut);
+	}
 	public Empleado editarEmpleado(Empleado empleadoActualizado, int empleadoId) {
 		Empleado empleado = repositorio.findById(empleadoId).orElse(empleadoActualizado);
 		if(empleado == null) {

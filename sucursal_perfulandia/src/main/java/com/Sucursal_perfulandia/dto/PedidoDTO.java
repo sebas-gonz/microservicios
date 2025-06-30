@@ -19,10 +19,6 @@ public class PedidoDTO {
 
     @Schema(description = "ID de la sucursal donde se registró el pedido", example = "2")
     private int sucursalId;
-    
-    @Schema(description = "Informacion de la sucursal.")
-    private SucursalDTO sucursal;
-    
     @Schema(description = "Estado actual del pedido", example = "pendiente")
     private String estado;
 
@@ -70,12 +66,6 @@ public class PedidoDTO {
 	}
 	public void setPedidoId(int pedidoId) {
 		this.pedidoId = pedidoId;
-	}
-	public SucursalDTO getSucursal() {
-		return sucursal;
-	}
-	public void setSucursal(SucursalDTO sucursal) {
-		this.sucursal = sucursal;
 	}
 	public UsuarioDTO getUsuario() {
 		return usuario;

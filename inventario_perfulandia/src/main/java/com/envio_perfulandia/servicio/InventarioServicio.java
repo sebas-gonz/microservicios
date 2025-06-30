@@ -1,5 +1,6 @@
 package com.envio_perfulandia.servicio;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,13 +55,23 @@ public class InventarioServicio {
 		}
 		return inventario;
 	}
-	 public Inventario editarInventario(int inventarioId, InventarioDTO inventarioDTO){
-		 Inventario inventario = repositorio.findById(inventarioId).orElse(null);
-		if(inventario != null) {
+	
+	public List<Inventario> inventariosPorSucursalYProductos(int sucursalId,int producotId){
+		List<Inventario> inventarios = repositorio.findBySucursalIdAndProductoId(sucursalId, producotId);
+		return inventarios.isEmpty() ? null : inventarios;
+	}
+	 public List<Inventario> editarInventario(List<InventarioDTO> inventariosDTO){
+		 List<Inventario> inventarios = new ArrayList<>();
+		for(InventarioDTO inventarioDTO : inventariosDTO) {
+			Inventario inventario = repositorio.findById(inventarioDTO.getInventarioId()).orElse(null);
+			if(inventario == null) {
+				return null;
+			}
 			inventario.setCantidadDisponible(inventarioDTO.getCantidadDisponible());
-			return repositorio.save(inventario);
+			repositorio.save(inventario);
+			inventarios.add(inventario);
 		}
-		return null;
+		return inventarios;
 	 }
 	public void eliminarInventario(int inventarioId) {
 		repositorio.deleteById(inventarioId);

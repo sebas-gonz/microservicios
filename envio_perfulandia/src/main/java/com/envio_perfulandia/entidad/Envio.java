@@ -2,23 +2,34 @@ package com.envio_perfulandia.entidad;
 
 import java.time.LocalDateTime;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
+@Schema(description = "Entidad que representa los atributos.")
 public class Envio {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Schema(description = "Representa el id que tiene un pedido", example ="1")
     private int envioId;
+	@Schema(description = "Representa el id de una boleta", example ="1")
     private int boletaId;
+	@Schema(description = "Representa el id de pedido", example ="1")
     private int pedidoId;
+	@Schema(description = "Representa el id del usuario que solicito una compra ", example ="1")
     private int usuarioId;
+	@Schema(description = "Representa el id de la sucursal que realiza el envio", example ="1")
     private int sucursalId;
+	@Schema(description = "Representa la direccion del envio", example ="Av.J.J. Perez")
     private String direccionEnvio;
+	@Schema(description = "Representa el estado que se encuentra el pedido", example ="proceso")
     private String estado; 
+	@Schema(description = "Representa la fecha que se realizo el envio", example ="24-06-2025")
     private LocalDateTime fechaEnvio;
+	@Schema(description = "Representa la fecha de entrega del envio", example ="26-06-3035")
     private LocalDateTime fechaEntrega;
     
 	public Envio() {
