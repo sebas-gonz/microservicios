@@ -80,9 +80,13 @@ public class BoletaServicio {
 			boletaDTO.setBoletaId(boleta.getBoletaId());
 			boletaDTO.setSucursalId(boleta.getSucursalId());
 			boletaDTO.setUsuarioId(boleta.getUsuarioId());
+			boletaDTO.setEmpleadoId(boleta.getEmpleadoId());
+			
 			boletaDTO.setTotal(boleta.getTotal());
 			boletaDTO.setNombreSucursal(boleta.getNombreSucursal());
 			boletaDTO.setNombreUsuario(boleta.getNombreUsuario());
+			boletaDTO.setNombreEmpleado(boleta.getNombreEmpleado());
+			
 			String url = "http://localhost:8084/detalle_boleta/boleta/" + boleta.getBoletaId();
 			DetalleBoletaDTO[] detalleBoletas = perfulandiaConfig.restTemplate().getForObject(url, DetalleBoletaDTO[].class);
 			boletaDTO.setDetalleBoletas(Arrays.asList(detalleBoletas));

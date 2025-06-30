@@ -14,9 +14,6 @@ public class InventarioDTO {
     @Schema(description = "Información detallada del producto.")
     private ProductoDTO producto;
     
-    @Schema(description = "Identificador de la sucursal donde se encuentra el inventario.", example = "2")
-    private int sucursalId;
-
     @Schema(description = "Cantidad disponible del producto en la sucursal.", example = "30")
     private int cantidadDisponible;
 
@@ -41,13 +38,6 @@ public class InventarioDTO {
 		this.productoId = productoId;
 	}
 
-	public int getSucursalId() {
-		return sucursalId;
-	}
-
-	public void setSucursalId(int sucursalId) {
-		this.sucursalId = sucursalId;
-	}
 
 	public int getCantidadDisponible() {
 		return cantidadDisponible;

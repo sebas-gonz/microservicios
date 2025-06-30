@@ -83,7 +83,7 @@ public class SucuController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Eliminar un usuario ", description = "Eliminar un usuario en especifico mediante el id")
+    @Operation(summary = "Eliminar una sucursal ", description = "Eliminar una sucursal en especifico mediante el id")
     @ApiResponses(value = {
     		@ApiResponse(responseCode = "204", description = "Sucursal eliminada correctamente"),
     		@ApiResponse(responseCode = "404", description = "")
@@ -164,7 +164,7 @@ public class SucuController {
         @ApiResponse(responseCode = "204", description = "La sucursal no tiene productos en inventario"),
         @ApiResponse(responseCode = "404", description = "Sucursal no encontrada"),
     })
-    @Parameter(name = "id", description = "Identificador primario de la sucursal",
+    @Parameter(name = "sucursalid", description = "Identificador primario de la sucursal",
 	required = true,
 	example = "1")
     public ResponseEntity<List<InventarioDTO>> inventarioSucursal(@PathVariable("sucursalid")int sucursalId){

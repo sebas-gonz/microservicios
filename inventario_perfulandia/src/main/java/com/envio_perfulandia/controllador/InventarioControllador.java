@@ -131,19 +131,19 @@ public class InventarioControllador {
 	@GetMapping("/sucursal/{sucursalid}")
 	@Operation(summary = "Busca inventario de una suscursal",
 	   description = "se retorna todos los inventarios de una sucursal")
-@ApiResponses(value={
-@ApiResponse(
-		responseCode = "200",
-		description = "inventarios encontrados"),
-@ApiResponse(
-		responseCode = "404",
-		description = "inventarios no encontrados o sucursal no registra inventarios")
-})
-@Parameter(
-	name="sucursalid",
-	description = "Id de la sucursal a la que queremos ver los inventarios",
-	required = true,
-	example = "1001")
+	@ApiResponses(value={
+	@ApiResponse(
+			responseCode = "200",
+			description = "inventarios encontrados"),
+	@ApiResponse(
+			responseCode = "404",
+			description = "inventarios no encontrados o sucursal no registra inventarios")
+	})
+	@Parameter(
+		name="sucursalid",
+		description = "Id de la sucursal a la que queremos ver los inventarios",
+		required = true,
+		example = "1001")
 	public ResponseEntity<List<Inventario>> inventarioPorSucursal(@PathVariable("sucursalid")int sucursalId){
 		List<Inventario> inventarios = servicio.inventarioBySucursalId(sucursalId);
 		return inventarios != null ? ResponseEntity.ok(inventarios) : ResponseEntity.noContent().build();

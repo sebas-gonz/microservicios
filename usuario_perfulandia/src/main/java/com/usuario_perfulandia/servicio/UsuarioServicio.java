@@ -45,16 +45,16 @@ public class UsuarioServicio {
 	
 	public Usuario editarUsuario(Usuario actualizarUsuario,int id) {
 		Usuario usuario = usuarioRepository.findById(id).orElse(null);
-		if(usuario == null) {
-			return null;
+		if(usuario != null) {
+			String hashed = BCrypt.hashpw(actualizarUsuario.getContraseña(), BCrypt.gensalt());
+			usuario.setNombre(actualizarUsuario.getNombre());
+			usuario.setApellido(actualizarUsuario.getApellido());
+			usuario.setCorreo(actualizarUsuario.getCorreo());
+			usuario.setDireccion(actualizarUsuario.getDireccion());
+			usuario.setContraseña(hashed);
+			return usuarioRepository.save(usuario);
 		}
-		String hashed = BCrypt.hashpw(actualizarUsuario.getContraseña(), BCrypt.gensalt());
-		usuario.setNombre(actualizarUsuario.getNombre());
-		usuario.setApellido(actualizarUsuario.getApellido());
-		usuario.setCorreo(actualizarUsuario.getCorreo());
-		usuario.setDireccion(actualizarUsuario.getDireccion());
-		usuario.setContraseña(hashed);
-		return usuarioRepository.save(usuario);
+		return usuario;
 	}
 	
 	public List<BoletaDTO> boletasUsuario(int id){
