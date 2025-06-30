@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
 public class Producto {
 
     @Id
-    @Schema(description = "ID único del producto", example = "101")
+    @Schema(description = "ID único del producto")
     private int idproducto;
 
     @Schema(description = "Nombre del producto", example = "Perfume Aromax 50ml")

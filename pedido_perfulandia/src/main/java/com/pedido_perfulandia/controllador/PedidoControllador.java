@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Description;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,14 +43,14 @@ public class PedidoControllador {
 	    @ApiResponse(responseCode = "200", description = "Lista de envios obtenidos."),
 	    @ApiResponse(responseCode = "204", description = "No hay envios dentro sistema.")
 	})
-	public ResponseEntity<List<Pedido>> obtenerPedidos(){
+	public ResponseEntity<List<Pedido>> listarPedidos(){
 		List<Pedido> pedidos = servicio.pedidos();
 		return pedidos == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(pedidos);
 	}
 	
 	@GetMapping("/{pedidoid}")
 	@Operation(
-		    summary = "Obtener los pedidos especificos",
+		    summary = "Obtener un pedido especifico",
 		    description = "Obtiene todos los pedidos dentro del sistema mediante una id especifica"
 		)
 		@ApiResponses(value = {
@@ -110,7 +112,7 @@ public class PedidoControllador {
 		    required = true,
 		    example = "1001"
 		)
-	public ResponseEntity<Pedido> eliminarPedido(@PathVariable("pedidodid")int pedidoId){
+	public ResponseEntity<Pedido> eliminarPedido(@PathVariable("pedidoid")int pedidoId){
 		servicio.eliminarPedido(pedidoId);
 		return ResponseEntity.noContent().build();
 	}
@@ -177,4 +179,5 @@ public class PedidoControllador {
 		List<Pedido> pedidos = servicio.pedidoPorUsuarioId(usuarioId);
 		return pedidos != null ? ResponseEntity.ok(pedidos) : ResponseEntity.noContent().build();
 	}
+
 }

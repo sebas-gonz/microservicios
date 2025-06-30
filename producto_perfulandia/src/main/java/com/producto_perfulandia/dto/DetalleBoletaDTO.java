@@ -9,7 +9,7 @@ public class DetalleBoletaDTO {
     private int productoId;
 
     @Schema(description = "Nombre del producto", example = "Perfume Aromax 50ml")
-    private String nombre_producto;
+    private String nombreProducto;
 
     @Schema(description = "ID del detalle de boleta", example = "5001")
     private int detalleBoletaId;
@@ -43,11 +43,11 @@ public class DetalleBoletaDTO {
 	public void setDetalleBoletaId(int detalle_boleta_id) {
 		this.detalleBoletaId = detalle_boleta_id;
 	}
-	public String getNombre_producto() {
-		return nombre_producto;
+	public String getNombreProducto() {
+		return nombreProducto;
 	}
-	public void setNombre_producto(String nombre_producto) {
-		this.nombre_producto = nombre_producto;
+	public void setNombre_producto(String nombreProducto) {
+		this.nombreProducto = nombreProducto;
 	}
 	public int getCantidad() {
 		return cantidad;

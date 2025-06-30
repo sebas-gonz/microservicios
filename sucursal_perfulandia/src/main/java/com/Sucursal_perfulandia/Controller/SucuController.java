@@ -146,7 +146,7 @@ public class SucuController {
         @ApiResponse(responseCode = "200", description = "Lista de empleados obtenida exitosamente."),
         @ApiResponse(responseCode = "204", description = "No se encontraron empleados para la sucursal indicada."),
     })
-    @Parameter(name = "id", description = "Identificador primario de la sucursal",
+    @Parameter(name = "sucursalid", description = "Identificador primario de la sucursal",
 	required = true,
 	example = "1")
     public ResponseEntity<List<EmpleadoDTO>> empleadosSucursal(@PathVariable("sucursalid")int sucursalId){

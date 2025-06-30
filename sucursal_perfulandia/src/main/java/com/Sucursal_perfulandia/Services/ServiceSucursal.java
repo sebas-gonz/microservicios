@@ -62,6 +62,10 @@ public class ServiceSucursal {
     		BoletaDTO[] boletas = perfumelandiaConfig.restTemplate().getForObject(urlBoletas, BoletaDTO[].class);
     		for(BoletaDTO boleta : boletas) {
     			DetalleBoletaDTO[] detalles = perfumelandiaConfig.restTemplate().getForObject("http://localhost:8088/api/detalle_boleta/boleta/" + boleta.getBoletaId(), DetalleBoletaDTO[].class);
+    			for(DetalleBoletaDTO detalle : detalles) {
+    				ProductoDTO producto = perfumelandiaConfig.restTemplate().getForObject("http://localhost:8088/api/producto/" + detalle.getProductoId(), ProductoDTO.class);
+    				detalle.setProducto(producto);
+    			}
     			boleta.setDetalleBoletas(Arrays.asList(detalles));
     			
     			UsuarioDTO usuario = perfumelandiaConfig.restTemplate().getForObject("http://localhost:8088/api/usuario/" + boleta.getUsuarioId(),UsuarioDTO.class);

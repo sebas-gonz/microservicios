@@ -31,7 +31,7 @@ public class BoletaDTO {
     private int total;
 
     @Schema(description = "Lista de detalles de productos incluidos en la boleta")
-    private List<DetalleBoletaDTO> detalleBoletas;
+    private List<DetalleBoletaDTO> detalleBoleta;
 	
 	public BoletaDTO() {
 		super();
@@ -69,11 +69,11 @@ public class BoletaDTO {
 		this.sucursalId = sucursal_id;
 	}
 
-	public List<DetalleBoletaDTO> getDetalleBoletas() {
-		return detalleBoletas;
+	public List<DetalleBoletaDTO> getDetalleBoleta() {
+		return detalleBoleta;
 	}
-	public void setDetalleBoletas(List<DetalleBoletaDTO> detalleBoletas) {
-		this.detalleBoletas = detalleBoletas;
+	public void setDetalleBoletas(List<DetalleBoletaDTO> detalleBoleta) {
+		this.detalleBoleta = detalleBoleta;
 	}
 	public int getEmpleadoId() {
 		return empleadoId;

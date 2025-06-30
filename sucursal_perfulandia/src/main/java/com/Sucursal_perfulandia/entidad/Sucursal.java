@@ -12,7 +12,7 @@ public class Sucursal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "Identificador único de la sucursal.", example = "1")
+    @Schema(description = "Identificador único de la sucursal.")
     private int sucursalId;
 
     @Schema(description = "Número telefónico de contacto de la sucursal.", example = "+56 9 1234 5678")

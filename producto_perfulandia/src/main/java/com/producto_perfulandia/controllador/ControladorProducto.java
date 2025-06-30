@@ -116,12 +116,6 @@ public class ControladorProducto {
             @ApiResponse(responseCode = "400", description = "Datos inválidos o malformateados"),
             @ApiResponse(responseCode = "500", description = "Error interno del servidor")
         })
-    @Parameter(
-    	    name = "id",
-    	    description = "ID del producto",
-    	    required = true,
-    	    example = "1"
-    	)
     public ResponseEntity<EntityModel<Producto>> agregarProducto(@RequestBody Producto producto){
     	productoServicio.agregarProducto(producto);
         return ResponseEntity.ok(assembler.toModel(producto));  
@@ -144,13 +138,9 @@ public class ControladorProducto {
     	    example = "1"
     	)
     @PutMapping("/{id}")
-    public ResponseEntity<EntityModel<Producto>> ActualizarProducto(@RequestBody Producto producto, @PathVariable("id")int id){
-    	Producto producbuscar = productoServicio.getProductoIdProducto(id);
-    	if(producbuscar == null) {
-    		return ResponseEntity.notFound().build();
-    	}
-    	productoServicio.actualizarProducto(producto, producbuscar);
-    	return ResponseEntity.ok(assembler.toModel(producbuscar));
+    public ResponseEntity<EntityModel<Producto>> ActualizarProducto(@RequestBody Producto productoAct, @PathVariable("id")int id){
+    	Producto producto = productoServicio.actualizarProducto(productoAct, id);
+    	return producto != null ? ResponseEntity.ok(assembler.toModel(producto)) : ResponseEntity.notFound().build();
     }
     
     
@@ -165,7 +155,7 @@ public class ControladorProducto {
     	    @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     	})
     @Parameter(
-    	    name = "id",
+    	    name = "productoid",
     	    description = "ID del producto",
     	    required = true,
     	    example = "1"
@@ -186,7 +176,7 @@ public class ControladorProducto {
     	    @ApiResponse(responseCode = "500", description = "Error interno del servidor")
     	})
     @Parameter(
-    	    name = "id",
+    	    name = "productoid",
     	    description = "ID del producto",
     	    required = true,
     	    example = "1"

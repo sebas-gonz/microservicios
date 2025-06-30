@@ -15,15 +15,17 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.Sucursal_perfulandia.Services.ServiceSucursal;
 import com.Sucursal_perfulandia.entidad.Sucursal;
 import com.Sucursal_perfulandia.repository.SucursalRepository;
 import com.fasterxml.jackson.databind.introspect.TypeResolutionContext.Empty;
-
+@ExtendWith(MockitoExtension.class)
 public class TestServicioSucursal {
 	@Mock
 	private SucursalRepository sucursalRepository;
@@ -35,7 +37,7 @@ public class TestServicioSucursal {
 
 	@BeforeEach
 	void setup() {
-		MockitoAnnotations.openMocks(this);
+		
 	    sucursal = new Sucursal();
 	    sucursal.setSucursalId(1);
 	    sucursal.setNumeroTelefono("+56 9 1234 5678");
@@ -102,10 +104,12 @@ public class TestServicioSucursal {
 
 	@Test //Para simular una eliminacion de sucursal
 	void testEliminarSucursal() {
-
 		doNothing().when(sucursalRepository).deleteById(1);//Simulamos que la maqueta del repositorio elimine la sucursal con el id 1
-
+		
 	    sucursalServicio.eliminarSucursal(1); //ejecutamos la simulacion
+	    
+	    Sucursal eliminada = sucursalServicio.buscarIdSucu(1);//Obtenemos la sucursal que ha sido eliminada
+	    assertNull(eliminada, "La sucursal no se ha eliminado"); //verificamos que la sucursal ha sido eliminada
 	    
 	    verify(sucursalRepository, times(1)).deleteById(1); //El metodo debe haber sido invocado 1 vez
 	}

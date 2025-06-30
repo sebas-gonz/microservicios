@@ -204,8 +204,8 @@ public class DetalleBoletaControllador {
 		        description = "detalle boleta no encontrada."
 		    )
 		})
-	public ResponseEntity<CollectionModel<EntityModel<DetalleBoleta>>> boletasProductoId(@PathVariable("productoid")int productoId){
+	public ResponseEntity<List<DetalleBoleta>> boletasProductoId(@PathVariable("productoid")int productoId){
 		List<DetalleBoleta> detalleBoletas = detalleBoletaServicio.boletasProducto(productoId);
-		return detalleBoletas == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(assembler.toCollection(detalleBoletas));
+		return detalleBoletas == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(detalleBoletas);
 	}
 }

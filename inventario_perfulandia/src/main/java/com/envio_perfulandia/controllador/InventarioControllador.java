@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/inventario")
-@Tag(name = "inventariio", description = "Operaciones relacionados con el inventario")
+@Tag(name = "inventario", description = "Operaciones relacionados con el inventario")
 public class InventarioControllador {
 
     private final RestTemplate restTemplate;

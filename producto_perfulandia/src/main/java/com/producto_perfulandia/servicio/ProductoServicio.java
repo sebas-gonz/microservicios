@@ -36,12 +36,13 @@ public class ProductoServicio {
         productoRepository.deleteById(id);
     }
     
-    public Producto actualizarProducto(Producto producto, Producto producbuscar) {
+    public Producto actualizarProducto(Producto productoAct, int productoId) {
+    	Producto producto = productoRepository.findById(productoId).orElse(null);
     	if(producto != null) {
-    		producbuscar.setNombreProducto(producto.getNombreProducto());
-    		producbuscar.setCategoria(producto.getCategoria());
-    		producbuscar.setPrecio(producto.getPrecio());
-    		return productoRepository.save(producbuscar);
+    		producto.setNombreProducto(productoAct.getNombreProducto());
+    		producto.setCategoria(productoAct.getCategoria());
+    		producto.setPrecio(productoAct.getPrecio());
+    		return productoRepository.save(producto);
     	}
     	return null;
     	
@@ -49,7 +50,7 @@ public class ProductoServicio {
     
     public List<DetalleBoletaDTO> boletasProducto(int productoId){
     	try {
-    		String urlDetalleBoleta = "http://localhost:8084/detalle_boleta/producto/" + productoId;
+    		String urlDetalleBoleta = "http://localhost:8088/api/detalle_boleta/producto/" + productoId;
     		DetalleBoletaDTO[] detalles = perfumelandiaConfig.restTemplate().getForObject(urlDetalleBoleta, DetalleBoletaDTO[].class);
     		return detalles == null ? null : Arrays.asList(detalles);
     		
@@ -57,7 +58,7 @@ public class ProductoServicio {
     		System.out.println("Error al obtener las boletas del producto: " + productoId);
     		return null;
     	} catch(Exception e) {
-    		System.out.println("Errol al acceder al servicio: " + e.getMessage());
+    		System.out.println("Error al acceder al servicio: " + e.getMessage());
     		return null;
     	}
     }

@@ -47,7 +47,7 @@ public class PedidoServicio {
 	        List<DetallePedidoDTO> detallesPedidos = pedidoDTO.getDetalles();
 	        
 	        for (DetallePedidoDTO detalle : detallesPedidos) {
-	            String urlInventario = "http://localhost:8090/inventario/" + pedido.getSucursalId() + "/" + detalle.getProductoId();
+	            String urlInventario = "http://localhost:8088/api/inventario/" + pedido.getSucursalId() + "/" + detalle.getProductoId();
 	            InventarioDTO[] inventarios = restTemplate.getForObject(urlInventario, InventarioDTO[].class);
 	            if(inventarios == null) {
 	            	return null;
