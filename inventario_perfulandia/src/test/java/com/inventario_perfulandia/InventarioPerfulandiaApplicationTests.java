@@ -1,4 +1,4 @@
-package com.envio_perfulandia;
+package com.inventario_perfulandia;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
