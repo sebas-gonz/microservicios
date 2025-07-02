@@ -45,15 +45,15 @@ public class DetallePedidoServicio {
 	
 	public DetallePedido editarDetallePedido(int detallePedidoId, DetallePedido nuevoDetallePedido) {
 		DetallePedido detallePedido = repositorio.findById(detallePedidoId).orElse(null);
-		if(detallePedido == null) {
-			return null;
+		if(detallePedido != null) {
+			detallePedido.setCantidad(nuevoDetallePedido.getCantidad());
+			detallePedido.setNombreProducto(nuevoDetallePedido.getNombreProducto());
+			detallePedido.setProductoId(nuevoDetallePedido.getProductoId());
+			detallePedido.setSubtotal(nuevoDetallePedido.getSubtotal());
+			
+			return repositorio.save(detallePedido);
 		}
-		detallePedido.setCantidad(nuevoDetallePedido.getCantidad());
-		detallePedido.setNombreProducto(nuevoDetallePedido.getNombreProducto());
-		detallePedido.setProductoId(nuevoDetallePedido.getProductoId());
-		detallePedido.setSubtotal(nuevoDetallePedido.getSubtotal());
-		
-		return repositorio.save(detallePedido);
+		return detallePedido;
 	}
 	
 	public List<DetallePedido> crearDetallesPedidos(List<DetallePedidoDTO> detallePedidoDTO) {

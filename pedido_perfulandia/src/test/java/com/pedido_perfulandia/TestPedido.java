@@ -41,10 +41,10 @@ public class TestPedido {
 	private PedidoRespositorio repositorio;
 
 	@Mock
-	private RestTemplate restTemplate; // si usas restTemplate dentro del servicio
+	private RestTemplate restTemplate;
 
 	@InjectMocks
-	private PedidoServicio servicio; // ✅ Este será el objeto real, con mocks inyectados
+	private PedidoServicio servicio; 
 
 	
 	private PedidoDTO pedidoDto;
@@ -97,9 +97,9 @@ public class TestPedido {
 	    );
 		
 	    when(repositorio.save(any(Pedido.class))).thenAnswer(invoc -> {
-	        Pedido p = invoc.getArgument(0);
-	        p.setPedidoId(1);
-	        return p;
+	        Pedido pedido = invoc.getArgument(0);
+	        pedido.setPedidoId(1);
+	        return pedido;
 	    	});
 	    when(restTemplate.getForObject(eq("http://localhost:8088/api/usuario/1"), eq(UsuarioDTO.class)))
         	.thenReturn(new UsuarioDTO());

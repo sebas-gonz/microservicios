@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -98,7 +99,7 @@ public class BoletaControllador {
 	
 	@PostMapping("/pedido")
 	@Operation(
-		    summary = "Crear una nueva boleta",
+		    summary = "Crear una nueva boleta cuando se crea un nuevo pedido",
 		    description = "Registra una nueva boleta cuando se crea un nuevo pedido"
 		)
 		@ApiResponses(value = {
@@ -144,28 +145,10 @@ public class BoletaControllador {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@PostMapping("/actualizar_total")
-	@Operation(
-		    summary = "actualiza la boleta",
-		    description = "puede actualizar una boleta"
-		)
-		@ApiResponses(value = {
-		    @ApiResponse(
-		        responseCode = "200",
-		        description = "boleta actualizada"),
-		    @ApiResponse(
-		        responseCode = "500",
-		        description = "actualizacion de boleta no encontrada."
-		    )
-		})
-	public ResponseEntity<Void> actualizarTotal(@RequestBody Map<String,Object> detalleBoleta){
-		boletaServicio.actualizarBoleta(detalleBoleta);
-		return ResponseEntity.ok().build();
-	}
 	
-	@PostMapping("/{id}")
+	@PutMapping("/{id}")
 	@Operation(
-		    summary = "Ediata una boleta",
+		    summary = "Editar una boleta",
 		    description = "Edita una nueva boleta ya existente"
 		)
 		@ApiResponses(value = {
@@ -177,6 +160,12 @@ public class BoletaControllador {
 		        description = "boleta no encontrada."
 		    )
 		})
+	@Parameter(
+		    name = "id",
+		    description = "Id de la boleta que se desea actualizar",
+		    required = true,
+		    example = "1"
+		)
 	public ResponseEntity<EntityModel<Boleta>> editarBoleta(@PathVariable("id") int id,@RequestBody Boleta boleta){
 		if(boletaServicio.boletaById(id).equals(null)) {
 			return ResponseEntity.noContent().build();
@@ -199,6 +188,12 @@ public class BoletaControllador {
 		        description = "no se pudo obtener la informacion de detalle boleta."
 		    )
 		})
+	@Parameter(
+		    name = "id",
+		    description = "Id de la boleta que se desea obtener sus detalles",
+		    required = true,
+		    example = "1"
+		)
 	public ResponseEntity<List<DetalleBoletaDTO>> obtenerDetalles(@PathVariable("id") int id){
 		List<DetalleBoletaDTO> detalles = boletaServicio.obtenerDetallesBoleta(id);
 		if(detalles.isEmpty()) {
@@ -221,6 +216,12 @@ public class BoletaControllador {
 		        description = "no se pudo obtener la informacion del listado de boletas segun el usuario."
 		    )
 		})
+	@Parameter(
+		    name = "id",
+		    description = "Id del usuario que se desea obtener sus boletas",
+		    required = true,
+		    example = "1"
+		)
 	public ResponseEntity<List<BoletaDTO>> obtenerBoletasUsuarios(@PathVariable("id") int id){
 		List<BoletaDTO> boletas = boletaServicio.obtenerBoletaUsuario(id);
 		if(boletas == null) {
@@ -231,7 +232,7 @@ public class BoletaControllador {
 	
 	@GetMapping("/sucursal/{sucursalid}")
 	@Operation(
-		    summary = "se obtiene un bolta segun la sucursal",
+		    summary = "se obtiene un boleta segun la sucursal",
 		    description = "obtiene un boletas segun la id de sucursal"
 		)
 		@ApiResponses(value = {
@@ -243,6 +244,12 @@ public class BoletaControllador {
 		        description = "no se obtuvo la boleta segun la id de sucursal"
 		    )
 		})
+	@Parameter(
+		    name = "sucursalid",
+		    description = "Id de la sucursal que se desea obtener sus boletas",
+		    required = true,
+		    example = "1"
+		)
 	public ResponseEntity<List<BoletaDTO>> boletasSucursal(@PathVariable("sucursalid") int sucursalId){
 		List<BoletaDTO> boletas = boletaServicio.boletaSucursal(sucursalId);
 		return boletas == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(boletas);
@@ -250,7 +257,7 @@ public class BoletaControllador {
 	
 	@GetMapping("/empleado/{empleadoid}")
 	@Operation(
-		    summary = "se obtiene un bolta segun el empleado",
+		    summary = "se obtiene un boleta segun el empleado",
 		    description = "obtiene un boletas segun la id del empleado"
 		)
 		@ApiResponses(value = {
@@ -262,9 +269,15 @@ public class BoletaControllador {
 		        description = "no se obtuvo la boleta segun la id del empleado"
 		    )
 		})
-	public ResponseEntity<CollectionModel<EntityModel<Boleta>>> boletasEmpleado(@PathVariable("empleadoid")int empleadoId){
+	@Parameter(
+		    name = "empleadoid",
+		    description = "Id del empleado que se desea obtener sus boletas",
+		    required = true,
+		    example = "1"
+		)
+	public ResponseEntity<List<Boleta>> boletasEmpleado(@PathVariable("empleadoid")int empleadoId){
 		List<Boleta> boletas = boletaServicio.boletasEmpleado(empleadoId);
-		return boletas == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(assembler.toCollectionModel(boletas));
+		return boletas == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(boletas);
 	}
 	
 	@GetMapping("/pedido/{pedidoid}")
@@ -281,8 +294,14 @@ public class BoletaControllador {
 		        description = "no se obtuvo la boleta segun la id del pedido"
 		    )
 		})
-	public ResponseEntity<EntityModel<Boleta>> boletaPorPedidodId(@PathVariable("pedidoid")int pedidoId){
+	@Parameter(
+		    name = "pedidoid",
+		    description = "Id del pedido que se desea obtener su boleta",
+		    required = true,
+		    example = "1"
+		)
+	public ResponseEntity<Boleta> boletaPorPedidodId(@PathVariable("pedidoid")int pedidoId){
 		Boleta boleta = boletaServicio.boletaByPedidoId(pedidoId);
-		return boleta != null ? ResponseEntity.ok(assembler.toModel(boleta)) : ResponseEntity.noContent().build();
+		return boleta != null ? ResponseEntity.ok(boleta) : ResponseEntity.noContent().build();
 	}
 }

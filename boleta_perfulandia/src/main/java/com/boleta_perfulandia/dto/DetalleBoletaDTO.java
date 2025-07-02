@@ -17,21 +17,6 @@ public class DetalleBoletaDTO {
 	private int subtotal;
 	@Schema(description = "id de boleta.", example = "3")
 	private int boletaId;
-	
-	public int getUsuarioId() {
-		return usuarioId;
-	}
-	public void setUsuarioId(int usuarioId) {
-		this.usuarioId = usuarioId;
-	}
-	public String getUsuarioNombre() {
-		return usuarioNombre;
-	}
-	public void setUsuarioNombre(String usuarioNombre) {
-		this.usuarioNombre = usuarioNombre;
-	}
-	private int usuarioId;
-	private String usuarioNombre;
 
 	
 	public int getBoletaId() {
@@ -46,7 +31,6 @@ public class DetalleBoletaDTO {
 	public void setProductoId(int productoId) {
 		this.productoId = productoId;
 	}
-	
 	
 	public int getDetalleBoletaId() {
 		return detalleBoletaId;

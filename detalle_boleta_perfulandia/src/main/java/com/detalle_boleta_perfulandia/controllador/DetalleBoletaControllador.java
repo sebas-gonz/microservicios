@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -99,7 +100,7 @@ public class DetalleBoletaControllador {
 	
 	@PostMapping("/pedido")
 	@Operation(
-		    summary = "Crear una nueva  detalle boleta",
+		    summary = "Crear una nueva  detalle boleta cuando se crea un pedido",
 		    description = "Registra una nueva detalle boleta cuando se crea un nuevo pedido"
 		)
 		@ApiResponses(value = {
@@ -119,7 +120,7 @@ public class DetalleBoletaControllador {
 		return ResponseEntity.ok(assembler.toCollection(detalleBoleta));
 	}
 	
-	@PostMapping("/{id}")
+	@PutMapping("/{id}")
 	@Operation(
 		    summary = "actualiza una detalle boleta",
 		    description = "actualiza una nueva  detalle boleta ya existente"
@@ -133,6 +134,12 @@ public class DetalleBoletaControllador {
 		        description = "detalle boleta no encontrada."
 		    )
 		})
+	@Parameter(
+		    name = "id",
+		    description = "ID de detalle boleta a actualizar",
+		    required = true,
+		    example = "1"
+		)
 	public ResponseEntity<EntityModel<DetalleBoleta>> actualizarDetalleBoleta(@RequestBody DetalleBoleta detalleBoletaActualizado,@PathVariable("id")int id){
 		DetalleBoleta detalleBoleta = detalleBoletaServicio.editarDetalleBoletaById(id, detalleBoletaActualizado);
 		if(detalleBoleta == null) {
@@ -169,8 +176,8 @@ public class DetalleBoletaControllador {
 	
 	@GetMapping("/boleta/{id}")
 	@Operation(
-		    summary = "se obtiene una detalle boleta segun la id",
-		    description = "se obtiene una detalle boleta segun la id"
+		    summary = "se obtiene una detalle boleta segun la id de la boleta",
+		    description = "se obtiene una detalle boleta segun la id de la boleta"
 		)
 		@ApiResponses(value = {
 		    @ApiResponse(
@@ -181,6 +188,12 @@ public class DetalleBoletaControllador {
 		        description = "detalle boleta no encontrada."
 		    )
 		})
+	@Parameter(
+		    name = "id",
+		    description = "Id del la boleta que se desea obtener el detalle",
+		    required = true,
+		    example = "1"
+		)
 	public ResponseEntity<List<DetalleBoleta>> obtenerDetalleBoletaByIdBoleta(@PathVariable("id")int id){
 		List<DetalleBoleta> detalleBoletas = detalleBoletaServicio.obtenerDetalleBoletasByIdBoleta(id);
 		if(detalleBoletas == null) {
@@ -204,6 +217,12 @@ public class DetalleBoletaControllador {
 		        description = "detalle boleta no encontrada."
 		    )
 		})
+	@Parameter(
+		    name = "productoid",
+		    description = "Id del producto que se desea buscar en una boleta",
+		    required = true,
+		    example = "1"
+		)
 	public ResponseEntity<List<DetalleBoleta>> boletasProductoId(@PathVariable("productoid")int productoId){
 		List<DetalleBoleta> detalleBoletas = detalleBoletaServicio.boletasProducto(productoId);
 		return detalleBoletas == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(detalleBoletas);

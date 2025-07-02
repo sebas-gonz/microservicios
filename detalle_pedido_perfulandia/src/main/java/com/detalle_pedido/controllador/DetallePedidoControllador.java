@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import com.detalle_pedido.dto.DetallePedidoDTO;
 import com.detalle_pedido.entidad.DetallePedido;
 import com.detalle_pedido.servicio.DetallePedidoServicio;
 
+import io.micrometer.core.ipc.http.HttpSender.Response;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -60,8 +62,10 @@ public class DetallePedidoControllador {
 	    @ApiResponse(responseCode = "200", description = "Detalle de pedido encontrado"),
 	    @ApiResponse(responseCode = "204", description = "No se encontró detalle de pedido con ese ID")
 	})
-	@Parameter(description = "ID del detalle de pedido", example = "123") 
-	public ResponseEntity<EntityModel<DetallePedido>> DetallePedidoById(int detallePedidoId){
+	@Parameter(name = "detallepedidoid",
+			required = true,
+			description = "ID del detalle de pedido", example = "123") 
+	public ResponseEntity<EntityModel<DetallePedido>> detallePedidoById(@PathVariable("detallepedidoid")int detallePedidoId){
 		DetallePedido detallePedido = servicio.detallePedidoById(detallePedidoId);
 		
 		return detallePedido == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(assembler.toModel(detallePedido));
@@ -92,9 +96,10 @@ public class DetallePedidoControllador {
 	    @ApiResponse(responseCode = "204", description = "No se encontró detalle de pedido con ese ID"),
 	    @ApiResponse(responseCode = "400", description = "Solicitud inválida")
 	})
-	@Parameter(description = "ID del detalle de pedido a editar", example = "123")
-	public ResponseEntity<EntityModel<DetallePedido>> editarDetallePedido(@PathVariable("detallepedidodid")int detallePedidoId,
-			@RequestBody DetallePedido nuevoDetallePedido){
+	@Parameter(name = "detallepedidoid",
+				required = true,
+				description = "ID del detalle de pedido", example = "123") 
+	public ResponseEntity<EntityModel<DetallePedido>> editarDetallePedido(@PathVariable("detallepedidoid")int detallePedidoId,@RequestBody DetallePedido nuevoDetallePedido){
 		
 		DetallePedido detallePedido = servicio.editarDetallePedido(detallePedidoId, nuevoDetallePedido);
 		
@@ -124,9 +129,37 @@ public class DetallePedidoControllador {
 		    @ApiResponse(responseCode = "200", description = "Detalles de pedido creados exitosamente"),
 		    @ApiResponse(responseCode = "400", description = "Solicitud inválida")
 		})
-	@Parameter(description = "ID del pedido a buscar", example = "123")
+	@Parameter(name = "pedidoid",
+			required = true,
+			description = "ID del detalle de pedido", example = "123") 
 	public ResponseEntity<List<DetallePedido>> detallesPorPedido(@PathVariable("pedidoid")int pedidoId){
 		List<DetallePedido> detalles = servicio.detallesPedidoByPedidoId(pedidoId);
 		return detalles == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(detalles);
+	}
+	
+	@DeleteMapping("/{detallepedidoid}")
+	@Operation(
+		    summary = "Eliminar un detalle de un pedido por ID",
+		    description = "Elimina un detalle pedido existente por su ID. Retorna 204 si se elimina correctamente, o 404 si no se encuentra el detalle del pedido."
+		)
+		@ApiResponses(value = {
+		    @ApiResponse(
+		        responseCode = "204",
+		        description = "Detalle pedido eliminado."
+		    ),
+		    @ApiResponse(
+		        responseCode = "404",
+		        description = "Detalle pedido no encontrado."
+		    )
+		})
+		@Parameter(
+		    name = "detallepedidoid",
+		    description = "ID del detalle de un pedido que se desea eliminar",
+		    required = true,
+		    example = "1"
+		)
+	public ResponseEntity<Void> eliminarDetallePedido(@PathVariable("detallepedidoid") int detallePedidoId){
+		servicio.eliminarDetallePedido(detallePedidoId);
+		return ResponseEntity.noContent().build();
 	}
 }

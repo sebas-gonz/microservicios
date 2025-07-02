@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
 @Schema(description = "Entidad que representa una boleta del sistema.")
 public class Boleta {
 	
-	@Schema(description = "Identificador único de una boleta.", example = "1")
+	@Schema(description = "Identificador único de una boleta.")
 	private int boletaId;
 	@Schema(description = "Nombre del usuario que le pertenece a la boleta.", example = "juan")
 	private String nombreUsuario;
@@ -26,7 +26,7 @@ public class Boleta {
 	private int empleadoId;
 	@Schema(description = "id del pedido.", example = "1")
 	private int pedidoId;
-	@Schema(description = "aqui se muestra el total de la boleta.", example = "$500")
+	@Schema(description = "aqui se muestra el total de la boleta.", example = "500")
 	private int total;
 	
 	

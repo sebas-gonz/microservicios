@@ -12,7 +12,7 @@ public class DetallePedido {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(description = "ID único del detalle del pedido", example = "501")
+    @Schema(description = "ID único del detalle del pedido")
     private int detallePedidoId;
 
     @Schema(description = "ID del producto relacionado", example = "100")

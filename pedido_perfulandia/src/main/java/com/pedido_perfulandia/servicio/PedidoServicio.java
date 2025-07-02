@@ -33,9 +33,6 @@ public class PedidoServicio {
 	@Autowired
 	private RestTemplate restTemplate;
 	
-	
-	
-	
 	public Pedido crearPedido(PedidoDTO pedidoDTO) {
 	    try {
 	        Pedido pedido = new Pedido();
@@ -208,12 +205,15 @@ public class PedidoServicio {
 	
 	public Pedido editarPedido(int pedidoId,Pedido pedidoAct) {
 		Pedido pedido = respositorio.findById(pedidoId).orElse(null);
-		pedido.setEstado(pedidoAct.getEstado());
-		pedido.setFechaPedido(pedidoAct.getFechaPedido());
-		pedido.setSucursalId(pedidoAct.getSucursalId());
-		pedido.setUsuarioId(pedidoAct.getUsuarioId());
-		
-		return respositorio.save(pedido);
+		if(pedido != null) {
+			pedido.setEstado(pedidoAct.getEstado());
+			pedido.setFechaPedido(pedidoAct.getFechaPedido());
+			pedido.setSucursalId(pedidoAct.getSucursalId());
+			pedido.setUsuarioId(pedidoAct.getUsuarioId());
+			
+			return respositorio.save(pedido);
+		}
+		return pedido;
 	}
 	
 	public List<Pedido> pedidoPorSucursalId(int sucursalId){

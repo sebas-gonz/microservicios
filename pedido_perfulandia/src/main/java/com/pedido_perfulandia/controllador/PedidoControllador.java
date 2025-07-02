@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,9 +44,9 @@ public class PedidoControllador {
 	    @ApiResponse(responseCode = "200", description = "Lista de envios obtenidos."),
 	    @ApiResponse(responseCode = "204", description = "No hay envios dentro sistema.")
 	})
-	public ResponseEntity<List<Pedido>> listarPedidos(){
+	public ResponseEntity<CollectionModel<EntityModel<Pedido>>> listarPedidos(){
 		List<Pedido> pedidos = servicio.pedidos();
-		return pedidos == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(pedidos);
+		return pedidos == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(assembler.modelToCollection(pedidos));
 	}
 	
 	@GetMapping("/{pedidoid}")
@@ -67,9 +68,9 @@ public class PedidoControllador {
 			description = "Id del pedido a buscar",
 			required = true,
 			example = "1")
-	public ResponseEntity<Pedido> obtenerPedido(@PathVariable("pedidoid")int pedidoId){
+	public ResponseEntity<EntityModel<Pedido>> obtenerPedido(@PathVariable("pedidoid")int pedidoId){
 		Pedido pedido = servicio.pedidoById(pedidoId);
-		return pedido == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(pedido);
+		return pedido == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(assembler.toModel(pedido));
 	}
 	
 	@PostMapping("/")
@@ -86,9 +87,9 @@ public class PedidoControllador {
 		        description = "Datos ingresados erroneos."
 		    )
 		})
-	public ResponseEntity<Pedido> crearPedido(@RequestBody PedidoDTO pedidoDTO){
+	public ResponseEntity<EntityModel<Pedido>> crearPedido(@RequestBody PedidoDTO pedidoDTO){
 		Pedido pedido = servicio.crearPedido(pedidoDTO);
-	    return pedido == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(pedido);
+	    return pedido == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(assembler.toModel(pedido));
 	}
 	
 	
@@ -117,7 +118,7 @@ public class PedidoControllador {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@PostMapping("/{pedidoid}")
+	@PutMapping("/{pedidoid}")
 	@Operation(summary ="Editar pedido",
 			   description="Editar los datos de un pedido segun la id")
 		@ApiResponses(value = {
@@ -133,9 +134,9 @@ public class PedidoControllador {
 			description = "Id del pedido a editar",
 			required = true,
 			example = "1001")
-	public ResponseEntity<Pedido> editarPedido(@PathVariable("pedidoid")int pedidoId,@RequestBody Pedido pedidoAct){
+	public ResponseEntity<EntityModel<Pedido>> editarPedido(@PathVariable("pedidoid")int pedidoId,@RequestBody Pedido pedidoAct){
 		Pedido pedido = servicio.editarPedido(pedidoId, pedidoAct);
-		return pedido == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(pedido);
+		return pedido == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(assembler.toModel(pedido));
 	}
 	
 	@GetMapping("/sucursal/{sucursalid}")
@@ -160,7 +161,7 @@ public class PedidoControllador {
 	}
 	
 	@GetMapping("/usuario/{usuarioid}")
-	@Operation(summary = "Buscar pedidor realizados por el usuario",
+	@Operation(summary = "Buscar pedidos realizados por el usuario",
 			   description = "Traer todos los pedidos realizados, segun el id del usuario")
 	@ApiResponses(value= {
 			@ApiResponse(

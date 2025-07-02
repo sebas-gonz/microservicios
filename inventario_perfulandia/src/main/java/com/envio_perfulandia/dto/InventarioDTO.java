@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "DTO que representa el inventario con sus detalles")
 public class InventarioDTO {
-	@Schema(description = "ID único del inventario", example = "101")
+	@Schema(description = "ID único del inventario", example = "1")
 	private int inventarioId;
 	
 	@Schema(description = "la cantidad disponible de un producto en el inventario", example = "107")

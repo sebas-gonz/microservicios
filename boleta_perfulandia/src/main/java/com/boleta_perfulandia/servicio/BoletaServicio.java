@@ -58,11 +58,20 @@ public class BoletaServicio {
 	
 	public Boleta editarBoletaById(int id, Boleta b) {
 		Boleta boleta = boletaRepository.findById(id).orElse(null);
-		if(boleta == null) {
-			return null;
+		if(boleta != null) {
+			boleta.setTotal(b.getTotal());
+			boleta.setEmpleadoId(b.getEmpleadoId());
+			boleta.setNombreEmpleado(b.getNombreEmpleado());
+			boleta.setNombreSucursal(b.getNombreSucursal());
+			boleta.setNombreUsuario(b.getNombreUsuario());
+			boleta.setPedidoId(b.getPedidoId());
+			boleta.setSucursalId(b.getSucursalId());
+			boleta.setUsuarioId(b.getUsuarioId());
+			boletaRepository.save(boleta);
+			return boleta;
 		}
-		boleta.setTotal(b.getTotal());
-		return boletaRepository.save(boleta);
+		
+		return boleta;
 	}
 	
 	public List<DetalleBoletaDTO> obtenerDetallesBoleta(int id){

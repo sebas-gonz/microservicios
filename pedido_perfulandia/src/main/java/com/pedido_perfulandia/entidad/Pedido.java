@@ -12,7 +12,7 @@ import jakarta.persistence.Id;
 @Schema(name = "Pedido", description = "Representa un pedido realizado por un usuario en una sucursal")
 public class Pedido {
 
-    @Schema(description = "ID único del pedido", example = "1001")
+    @Schema(description = "ID único del pedido")
     private int pedidoId;
 
     @Schema(description = "ID de la sucursal donde se realizó el pedido", example = "5")

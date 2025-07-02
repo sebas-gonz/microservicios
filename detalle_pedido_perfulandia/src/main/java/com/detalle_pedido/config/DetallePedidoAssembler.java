@@ -17,12 +17,10 @@ public class DetallePedidoAssembler implements RepresentationModelAssembler<Deta
 	
 	@Override
 	public EntityModel<DetallePedido> toModel(DetallePedido detallePedido) {
-	    return EntityModel.of(
-	        detallePedido,
-	        linkTo(methodOn(DetallePedidoControllador.class).DetallePedidoById(detallePedido.getDetallePedidoId())).withSelfRel(),
-	        linkTo(methodOn(DetallePedidoControllador.class).editarDetallePedido(detallePedido.getDetallePedidoId(), detallePedido)).withRel("editar"),
-	        linkTo(methodOn(DetallePedidoControllador.class).detallesPorPedido(detallePedido.getPedidoId())).withRel("detalles-por-pedido")
-	    );
+	    return EntityModel.of(detallePedido,
+	    		linkTo(methodOn(DetallePedidoControllador.class).detallePedidoById(detallePedido.getDetallePedidoId())).withSelfRel(),
+	    		linkTo(methodOn(DetallePedidoControllador.class).editarDetallePedido(detallePedido.getPedidoId(), detallePedido)).withRel("Editar  detalle pedido"),
+	    		linkTo(methodOn(DetallePedidoControllador.class).eliminarDetallePedido(detallePedido.getDetallePedidoId())).withRel("eliminar detalle pedido"));
 	}
 	
 	public CollectionModel<EntityModel<DetallePedido>> modelToCollection(List<DetallePedido> detallePedido){

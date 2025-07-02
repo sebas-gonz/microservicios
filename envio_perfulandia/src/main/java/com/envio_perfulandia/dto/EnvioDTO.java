@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "Entidad que representa los atributos DTO")
 public class EnvioDTO {
-	@Schema(description = "Representa el id del envio", example="1")
+	@Schema(description = "Representa el id del envio")
 	private int envioId;
 	@Schema(description = "Representa el id de la boleta", example="2")
     private int boletaId;
@@ -19,9 +19,9 @@ public class EnvioDTO {
     private String direccionEnvio;
 	@Schema(description = "Representa el estado en el que se encuentra el pedido", example="Cancelado")
     private String estado; 
-	@Schema(description = "Repreeenta la fecha de envio", example="15-06-2025")
+	@Schema(description = "Repreeenta la fecha de envio", example="2025-06-24T00:00:00")
     private LocalDateTime fechaEnvio;
-	@Schema(description = "Representa la fecha de entrega del envio", example="16-06-2025")
+	@Schema(description = "Representa la fecha de entrega del envio", example="2035-06-26T00:00:00")
     private LocalDateTime fechaEntrega;
     
 	public EnvioDTO() {

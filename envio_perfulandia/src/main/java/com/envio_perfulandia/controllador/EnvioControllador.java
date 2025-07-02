@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,6 +32,8 @@ public class EnvioControllador {
 	
 	@Autowired
 	private EnvioServicio servicio;
+	
+	@Autowired
 	private EnvioAssembler EnvAssembler;
 	
 	
@@ -59,8 +62,8 @@ public class EnvioControllador {
 		        description = "Datos del pedido erroneos."
 		    )
 		})
-	public ResponseEntity<Envio> crearEnvio(@RequestBody EnvioDTO patata){
-		Envio envio = servicio.crearEnvio(patata);
+	public ResponseEntity<Envio> crearEnvio(@RequestBody EnvioDTO envioDto){
+		Envio envio = servicio.crearEnvio(envioDto);
 		return envio == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(envio);
 	}
 	
@@ -95,12 +98,12 @@ public class EnvioControllador {
 		    required = true,
 		    example = "7"
 		)
-	public ResponseEntity<Envio> envioById(@PathVariable("envioid")int envioId){
+	public ResponseEntity<EntityModel<Envio>> envioById(@PathVariable("envioid")int envioId){
 		Envio envio = servicio.envioPorId(envioId);
-		return envio == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(envio);
+		return envio == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(EnvAssembler.toModel(envio));
 	}
 	
-	@PostMapping("/{envioid}")
+	@PutMapping("/{envioid}")
 	@Operation(summary = "Edita los datos de un pedido", description = "Edita los datos de un pedido segun la id solicitada")
 	@ApiResponses(value = {
 	    @ApiResponse(responseCode = "200", description = "Datos del envio editados"),
@@ -112,8 +115,8 @@ public class EnvioControllador {
 		    required = true,
 		    example = "5"
 		)
-	public ResponseEntity<Envio> editarEnvio(@PathVariable("envioid")int envioId,@RequestBody Envio envioAct){
+	public ResponseEntity<EntityModel<Envio>> editarEnvio(@PathVariable("envioid")int envioId,@RequestBody Envio envioAct){
 		Envio envio = servicio.editarEnvio(envioId, envioAct);
-		return envio == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(envio);
+		return envio == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(EnvAssembler.toModel(envio));
 	}
 }

@@ -16,7 +16,7 @@ import java.util.Optional;
 
 import com.trabajador_perfulandia.entidad.Empleado;
 import com.trabajador_perfulandia.repositorio.EmpleadoRepositorio;
-import com.trabajador_perfulandia.servicio.empleadoServicio;
+import com.trabajador_perfulandia.servicio.EmpleadoServicio;
 
 
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +32,7 @@ public class TestsTrabajadores {
     private EmpleadoRepositorio repositorio;
 
     @InjectMocks
-    private empleadoServicio servicio;
+    private EmpleadoServicio servicio;
     
     private Empleado empleado;
 
@@ -55,6 +55,7 @@ public class TestsTrabajadores {
     	
     	assertNotNull(crearEmp,"El objeto se deberia haber guradado y tambien se debio retornar");//Se verifica si el Empleado no sea nulo
     	assertEquals(1,crearEmp.getEmpleadoId());//Se verifica si el usuario se ha ingresado con el id 1
+    	assertEquals("Vendedor", crearEmp.getCargo());
     }
     @Test //Buscar empleado por id
     void buscarEmpPorId() {

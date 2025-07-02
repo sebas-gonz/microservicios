@@ -9,7 +9,9 @@ import jakarta.persistence.Id;
 @Entity
 @Schema(description = "Entidad que representa una detalle boleta del sistema.")
 public class DetalleBoleta {
-	@Schema(description = "Identificador único de una detalle boleta.", example = "1")
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Schema(description = "Identificador único de una detalle boleta.")
 	private int detalleBoletaId;
 	@Schema(description = "Id de una producto segun detalle boleta.", example = "2")
 	private int productoId;
@@ -26,23 +28,20 @@ public class DetalleBoleta {
 	public int getBoletaId() {
 		return boletaId;
 	}
-	public void setBoletaId(int boleta_id) {
-		this.boletaId = boleta_id;
+	public void setBoletaId(int boletaId) {
+		this.boletaId = boletaId;
 	}
 	public int getProductoId() {
 		return productoId;
 	}
-	public void setProductoId(int producto_id) {
-		this.productoId = producto_id;
+	public void setProductoId(int productoId) {
+		this.productoId = productoId;
 	}
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getDetalleBoletaId() {
 		return detalleBoletaId;
 	}
-	public void setDetalleBoletaId(int detalle_boleta_id) {
-		this.detalleBoletaId = detalle_boleta_id;
+	public void setDetalleBoletaId(int detalleBoletaId) {
+		this.detalleBoletaId = detalleBoletaId;
 	}
 	public int getCantidad() {
 		return cantidad;

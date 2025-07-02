@@ -11,7 +11,7 @@ import jakarta.persistence.Id;
 public class Empleado {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Schema(description = "Representa el id del emplado", example="1")
+	@Schema(description = "Representa el id del emplado")
 	private int empleadoId;
 	@Schema(description = "Representa el nombre del empleado", example="Martin")
 	private String nombre;
@@ -23,6 +23,7 @@ public class Empleado {
 	private String cargo;
 	@Schema(description = "Representa el ID de la sucursal que pertenece el empleado", example="1")
 	private int sucursalId;
+	
 	public Empleado() {
 		super();
 	}

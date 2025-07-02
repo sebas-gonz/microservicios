@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(name = "PedidoDTO", description = "DTO que representa un pedido realizado por un usuario en una sucursal, con sus detalles")
 public class PedidoDTO {
 
-    @Schema(description = "ID único del pedido", example = "1001")
+    @Schema(description = "ID único del pedido")
     private int pedidoId;
 
     @Schema(description = "ID del usuario que realiza el pedido", example = "10")

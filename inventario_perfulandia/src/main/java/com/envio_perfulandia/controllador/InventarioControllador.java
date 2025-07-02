@@ -3,15 +3,20 @@ package com.envio_perfulandia.controllador;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+
+import com.envio_perfulandia.config.InventarioAssembler;
 import com.envio_perfulandia.dto.InventarioDTO;
 import com.envio_perfulandia.entidad.Inventario;
 import com.envio_perfulandia.servicio.InventarioServicio;
@@ -26,16 +31,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping("/inventario")
 @Tag(name = "inventario", description = "Operaciones relacionados con el inventario")
 public class InventarioControllador {
-
-    private final RestTemplate restTemplate;
 	@Autowired
 	private InventarioServicio servicio;
 
-
-    InventarioControllador(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
-	
+	@Autowired
+	private InventarioAssembler assembler;
 	
 	@GetMapping("/")
 	@Operation(summary = "Obtener todos los inventarios", description = "Obtiene una lista de todos los inventarios.")
@@ -43,9 +43,9 @@ public class InventarioControllador {
 	    @ApiResponse(responseCode = "200", description = "Lista de inventarios obtenida."),
 	    @ApiResponse(responseCode = "204", description = "No hay inventario registrados.")
 	})
-	public ResponseEntity<List<Inventario>> Inventarios(){
+	public ResponseEntity<CollectionModel<EntityModel<Inventario>>> Inventarios(){
 		List<Inventario> inventarios = servicio.obtenerInventarios();
-		return inventarios != null ? ResponseEntity.ok(inventarios) : ResponseEntity.noContent().build();
+		return inventarios != null ? ResponseEntity.ok(assembler.toCollectionModel(inventarios)) : ResponseEntity.noContent().build();
 	}
 	
 	@GetMapping("/{inventarioid}")
@@ -68,9 +68,9 @@ public class InventarioControllador {
 		    required = true,
 		    example = "1"
 		)
-	public ResponseEntity<Inventario> Inventario(@PathVariable("inventarioid")int inventarioId){
+	public ResponseEntity<EntityModel<Inventario>> obtenerInventario(@PathVariable("inventarioid")int inventarioId){
 		Inventario inventario = servicio.inventarioById(inventarioId);
-		return inventario != null ? ResponseEntity.ok(inventario) : ResponseEntity.noContent().build();
+		return inventario != null ? ResponseEntity.ok(assembler.toModel(inventario)) : ResponseEntity.noContent().build();
 	}
 	
 	@PostMapping("/")
@@ -87,8 +87,9 @@ public class InventarioControllador {
 		        description = "Datos del inventario erroneos."
 		        )
 		})
-	public ResponseEntity<Inventario> crearInventario(@RequestBody Inventario inventario){
-		return ResponseEntity.ok(servicio.crearInventario(inventario));
+	public ResponseEntity<EntityModel<Inventario>> crearInventario(@RequestBody Inventario inventario){
+		Inventario creado = servicio.crearInventario(inventario);
+		return ResponseEntity.ok(assembler.toModel(creado));
 	}
 	
 	@DeleteMapping("/{inventarioid}")
@@ -117,17 +118,16 @@ public class InventarioControllador {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@PostMapping("/{inventarioid}")
-	@Operation(summary = "Actualizar un inventarioi", description = "Actualiza un inventarioi existente mediante un id.")
+	@PutMapping("/{inventarioid}")
+	@Operation(summary = "Actualizar un inventario", description = "Actualiza un inventario existente mediante un id.")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "inventarioi actualizado correctamente."),
-			@ApiResponse(responseCode = "404", description = "inventarioi no encontrado")
+			@ApiResponse(responseCode = "200", description = "inventario actualizado correctamente."),
+			@ApiResponse(responseCode = "404", description = "inventario no encontrado")
 	})
-	public ResponseEntity<Inventario> editarInventario(@PathVariable("inventarioid")int inventarioId,Inventario inventarioAct){
+	public ResponseEntity<EntityModel<Inventario>> editarInventario(@PathVariable("inventarioid")int inventarioId,Inventario inventarioAct){
 		Inventario inventario = servicio.editarInventario(inventarioId, inventarioAct);
-		return inventario != null ? ResponseEntity.ok(inventario) : ResponseEntity.notFound().build();
+		return inventario != null ? ResponseEntity.ok(assembler.toModel(inventario)) : ResponseEntity.notFound().build();
 	}
-	
 	@GetMapping("/sucursal/{sucursalid}")
 	@Operation(summary = "Busca inventario de una suscursal",
 	   description = "se retorna todos los inventarios de una sucursal")
@@ -152,19 +152,19 @@ public class InventarioControllador {
 	@GetMapping("/producto/{productoid}")
 	@Operation(summary = "Busca inventario de un producto ",
 	   description = "se retorna todos los inventarios de un producto")
-@ApiResponses(value={
-@ApiResponse(
-		responseCode = "200",
-		description = "inventario obtenido con exito"),
-@ApiResponse(
-		responseCode = "404",
-		description = "producto no encontrado o  no registrado en el inventario")
-})
-@Parameter(
-	name="productoid",
-	description = "Id del producto al que queremos ver los inventarios",
-	required = true,
-	example = "1001")
+	@ApiResponses(value={
+	@ApiResponse(
+			responseCode = "200",
+			description = "inventario obtenido con exito"),
+	@ApiResponse(
+			responseCode = "404",
+			description = "producto no encontrado o  no registrado en el inventario")
+	})
+	@Parameter(
+			name="productoid",
+			description = "Id del producto al que queremos ver los inventarios",
+			required = true,
+			example = "1001")
 	public ResponseEntity<List<Inventario>> inventarioPorProducto(@PathVariable("productoid")int productoId){
 		List<Inventario> inventarios = servicio.inventarioByProductoId(productoId);
 		return inventarios != null ? ResponseEntity.ok(inventarios) : ResponseEntity.noContent().build();
@@ -173,19 +173,19 @@ public class InventarioControllador {
 	@GetMapping("/{sucursalid}/{productoid}")
 	@Operation(summary = "Busca inventario de un producto y sucursal dirigida ",
 	   description = "se retorna todos los inventarios de un producto y sucursal ")
-@ApiResponses(value={
-@ApiResponse(
-		responseCode = "200",
-		description = "inventarios del producto obtenido con exito con sucursal"),
-@ApiResponse(
-		responseCode = "404",
-		description = "producto no encontrado en la sucursal o  no registrado en el inventario de esa sucursal")
-})
-@Parameter(
-	name="productoid",
-	description = "Id del producto al cual que queremos ver la sucursal cuando se entra al inventarios",
-	required = true,
-	example = "1001")
+	@ApiResponses(value={
+	@ApiResponse(
+			responseCode = "200",
+			description = "inventarios del producto obtenido con exito con sucursal"),
+	@ApiResponse(
+			responseCode = "404",
+			description = "producto no encontrado en la sucursal o  no registrado en el inventario de esa sucursal")
+	})
+	@Parameter(
+		name="productoid",
+		description = "Id del producto al cual que queremos ver la sucursal cuando se entra al inventarios",
+		required = true,
+		example = "1001")
 	public ResponseEntity<List<Inventario>> inventariosPorSucursalYProducto(@PathVariable("sucursalid")int sucursalId,@PathVariable("productoid")int productoId){
 		List<Inventario> inventarios = servicio.inventariosPorSucursalYProductos(sucursalId, productoId);
 		return inventarios == null ? ResponseEntity.notFound().build() : ResponseEntity.ok( inventarios);

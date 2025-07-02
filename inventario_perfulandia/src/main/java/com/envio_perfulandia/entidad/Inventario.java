@@ -11,7 +11,7 @@ import jakarta.persistence.Id;
 public class Inventario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Schema(description = "inventado tiene que tener producto y su sucursal asignado .", example = "201")
+	@Schema(description = "inventado tiene que tener producto y su sucursal asignado .")
 	private int inventarioId;
 	@Schema(description = "producto de cada inventario con su respectiva sucursal.", example = "390")
     private int productoId;

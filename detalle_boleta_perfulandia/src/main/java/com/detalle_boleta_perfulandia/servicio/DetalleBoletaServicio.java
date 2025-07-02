@@ -53,16 +53,17 @@ public class DetalleBoletaServicio {
 	}
 	public DetalleBoleta editarDetalleBoletaById(int id,DetalleBoleta d) {
 		DetalleBoleta detalleBoleta = detalleBoletaRepository.findById(id).orElse(null);
-		
+		if(detalleBoleta != null) {
 
-		
-		detalleBoleta.setCantidad(d.getCantidad());
+			detalleBoleta.setCantidad(d.getCantidad());
 
-		detalleBoleta.setProductoId(d.getProductoId());
-		detalleBoleta.setSubtotal(d.getSubtotal());
-		detalleBoleta.setBoletaId(d.getBoletaId());
-		detalleBoletaRepository.save(detalleBoleta);
-		
+			detalleBoleta.setProductoId(d.getProductoId());
+			detalleBoleta.setSubtotal(d.getSubtotal());
+			detalleBoleta.setBoletaId(d.getBoletaId());
+			detalleBoleta.setNombreProducto(d.getNombreProducto());
+			detalleBoletaRepository.save(detalleBoleta);
+			return detalleBoleta;
+		}
 		return detalleBoleta;
 	}
 	

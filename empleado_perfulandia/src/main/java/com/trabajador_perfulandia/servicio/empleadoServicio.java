@@ -13,7 +13,7 @@ import com.trabajador_perfulandia.entidad.Empleado;
 import com.trabajador_perfulandia.repositorio.EmpleadoRepositorio;
 
 @Service
-public class empleadoServicio {
+public class EmpleadoServicio {
 
 	@Autowired
     private PerfulandiaConfig perfulandiaConfig;
@@ -41,21 +41,21 @@ public class empleadoServicio {
 		return (Empleado) repositorio.findByrut(rut);
 	}
 	public Empleado editarEmpleado(Empleado empleadoActualizado, int empleadoId) {
-		Empleado empleado = repositorio.findById(empleadoId).orElse(empleadoActualizado);
-		if(empleado == null) {
-			return null;
+		Empleado empleado = repositorio.findById(empleadoId).orElse(null);
+		if(empleado != null) {
+			empleado.setNombre(empleadoActualizado.getNombre());
+			empleado.setCargo(empleadoActualizado.getCargo());
+			empleado.setCorreo(empleadoActualizado.getCorreo());
+			empleado.setRut(empleadoActualizado.getRut());
+			empleado.setSucursalId(empleadoActualizado.getSucursalId());
+			return repositorio.save(empleado);
 		}
-		empleado.setNombre(empleadoActualizado.getNombre());
-		empleado.setCargo(empleadoActualizado.getCargo());
-		empleado.setCorreo(empleadoActualizado.getCorreo());
-		empleado.setRut(empleadoActualizado.getRut());
-		empleado.setSucursalId(empleadoActualizado.getEmpleadoId());
-		return repositorio.save(empleado);
+		return empleado;
 	}
 	
 	public List<BoletaDTO> boletasEmpleado(int empleadoId){
 		try {
-			String urlBoleta = "http://localhost:8083/boleta/empleado/" + empleadoId;
+			String urlBoleta = "http://localhost:8088/api/boleta/empleado/" + empleadoId;
 			BoletaDTO[] boletas= perfulandiaConfig.restTemplate().getForObject(urlBoleta, BoletaDTO[].class);
 			for(BoletaDTO boleta : boletas) {
 				

@@ -10,30 +10,31 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.RequestBody;
 import com.trabajador_perfulandia.config.EmpleadoAssembler;
 import com.trabajador_perfulandia.dto.BoletaDTO;
 import com.trabajador_perfulandia.entidad.Empleado;
-import com.trabajador_perfulandia.servicio.empleadoServicio;
+import com.trabajador_perfulandia.servicio.EmpleadoServicio;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/empleado")
+@Tag(name = "empleados", description = "Operaciones relacionados con los empleados")
 public class EmpleadoControllador {
 	
 	
 	@Autowired
-	private empleadoServicio servicio;
+	private EmpleadoServicio servicio;
 	@Autowired
 	private EmpleadoAssembler EmpAssembler;
-	//Inicio1
 	@GetMapping("/")
 	@Operation(summary = "Obtener a todos los empleados", description = "Nos da una lista de los empleados")
 	@ApiResponses(value = {
@@ -47,8 +48,8 @@ public class EmpleadoControllador {
 		}
 		return ResponseEntity.ok(EmpAssembler.modelToCollection(empleados));
 	}
-	//Fin1
-	//Inicio2
+	
+	
 	@PostMapping("/")
 	@Operation(summary="Ingresa empleado",description="Ingresa un empleado a la BDD")
 	@ApiResponses(value = {
@@ -60,11 +61,11 @@ public class EmpleadoControllador {
 		        description = "Datos del emplado erroneos."
 		    )
 		})
-	public ResponseEntity<Empleado> agregarEmpleado(@RequestBody Empleado empleado){
-		return ResponseEntity.ok(servicio.crearEmpleado(empleado));
+	public ResponseEntity<EntityModel<Empleado>> agregarEmpleado(@RequestBody Empleado empleado){
+		Empleado creado = servicio.crearEmpleado(empleado);
+		return ResponseEntity.ok(EmpAssembler.toModel(creado));
 	}
-	//Fin2
-	//Inicio3
+	
 	@Operation(
 		    summary = "Obtener un Empleado por ID",
 		    description = "Retorna un Empleado específico según su ID."
@@ -79,7 +80,7 @@ public class EmpleadoControllador {
 		    )
 		})
 		@Parameter(
-		    name = "id",
+		    name = "empleadoid",
 		    description = "ID del Emplado que necesitamos extraer",
 		    required = true,
 		    example = "1"
@@ -89,20 +90,18 @@ public class EmpleadoControllador {
 		Empleado empleado = servicio.EmpleadoPorId(empleadoId);
 		return empleado == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(EmpAssembler.toModel(empleado));
 	}
-	//Fin3
-	//Inicio4
-	@PostMapping("/{empleadoid}")
+
+	@PutMapping("/{empleadoid}")
 	@Operation(summary = "Actualizar datos de un empleado", description = "Actualiza un empleado siempre que el id exista.")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Usuario actualizado correctamente."),
 			@ApiResponse(responseCode = "404", description = "Usuario no encontrado")
 	})
-	public ResponseEntity<Empleado> actualizarEmpleado(@PathVariable("empleadoid")int empleadoId,@RequestBody Empleado empleado){
-		return servicio.editarEmpleado(empleado, empleadoId) == null ? ResponseEntity.noContent().build() : ResponseEntity.ok
-				(servicio.editarEmpleado(empleado, empleadoId));
+	public ResponseEntity<EntityModel<Empleado>> actualizarEmpleado(@PathVariable("empleadoid")int empleadoId,@RequestBody Empleado empleado){
+		Empleado actualizado = servicio.editarEmpleado(empleado, empleadoId);
+		return actualizado != null ? ResponseEntity.ok(EmpAssembler.toModel(actualizado)) : ResponseEntity.notFound().build();
 	}
-	//Fin4
-	//Inicio5
+
 	@DeleteMapping("/{empleadoid}")
 	@Operation(
 		    summary = "Eliminar un Empleado por ID",
@@ -131,8 +130,7 @@ public class EmpleadoControllador {
 		servicio.eliminarEmpleado(empleadoId);
         return ResponseEntity.noContent().build();
 	}
-	//Fin5
-	//Inicio6
+
 	@GetMapping("/{empleadoid}/boletas")
 	@Operation(
 		    summary = " Obtener todas las boletas del registradas por el empleado",
@@ -148,7 +146,7 @@ public class EmpleadoControllador {
 		    )
 		})
 		@Parameter(
-		    name = "id",
+		    name = "empleadoid",
 		    description = "ID del Empleado del cual queremos saber las boletas realizadas",
 		    required = true,
 		    example = "1"
@@ -159,7 +157,7 @@ public class EmpleadoControllador {
 		return boletas == null ? ResponseEntity.noContent().build() : ResponseEntity.ok(boletas);
 	}
 	
-	//Inicio6
+
 	@Operation(
 		    summary = "Extraer empleados de una sucursal",
 		    description = "Extrae los datos de los empleados segun id sucursal"
@@ -175,7 +173,7 @@ public class EmpleadoControllador {
 		    )
 		})
 		@Parameter(
-		    name = "Id",
+		    name = "sucursalid",
 		    description = "ID de la sucursal",
 		    required = true,
 		    example = "1"
@@ -185,5 +183,5 @@ public class EmpleadoControllador {
 		List<Empleado> empleados = servicio.empleadosSucursal(sucursalId);
 		return empleados == null ? ResponseEntity.notFound().build() : ResponseEntity.ok(empleados);
 	}
-	//Final6
+	
 }

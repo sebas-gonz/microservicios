@@ -13,7 +13,7 @@ import jakarta.persistence.Id;
 public class Envio {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Schema(description = "Representa el id que tiene un pedido", example ="1")
+	@Schema(description = "Representa el id que tiene un pedido")
     private int envioId;
 	@Schema(description = "Representa el id de una boleta", example ="1")
     private int boletaId;
@@ -27,9 +27,9 @@ public class Envio {
     private String direccionEnvio;
 	@Schema(description = "Representa el estado que se encuentra el pedido", example ="proceso")
     private String estado; 
-	@Schema(description = "Representa la fecha que se realizo el envio", example ="24-06-2025")
+	@Schema(description = "Representa la fecha que se realizo el envio", example ="2025-06-24T00:00:00")
     private LocalDateTime fechaEnvio;
-	@Schema(description = "Representa la fecha de entrega del envio", example ="26-06-3035")
+	@Schema(description = "Representa la fecha de entrega del envio", example ="2035-06-26T00:00:00")
     private LocalDateTime fechaEntrega;
     
 	public Envio() {
