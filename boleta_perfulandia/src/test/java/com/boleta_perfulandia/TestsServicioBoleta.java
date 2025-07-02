@@ -91,7 +91,7 @@ public class TestsServicioBoleta {
     	
     }
     @Test//Test de eliminar una boleta
-    void EliminarEmpleado() {
+    void EliminarBoleta() {
     	doNothing().when(boletaRepository).deleteById(1); //Simulamos que en el repositorio se haya borrado una boleta
     	
     	boletaService.borrarBoletaById(1); //Ejecutamnos la simulacion

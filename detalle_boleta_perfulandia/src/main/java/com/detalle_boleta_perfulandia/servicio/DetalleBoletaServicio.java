@@ -48,23 +48,20 @@ public class DetalleBoletaServicio {
 	public List<DetalleBoleta> obtenerDetalleBoletas(){
 		return detalleBoletaRepository.findAll();
 	}
-	public void eliminarDetalleBoletaById(int id) {
+	public  void eliminarDetalleBoletaById(int id) {
 		detalleBoletaRepository.deleteById(id);
 	}
 	public DetalleBoleta editarDetalleBoletaById(int id,DetalleBoleta d) {
 		DetalleBoleta detalleBoleta = detalleBoletaRepository.findById(id).orElse(null);
-		String urlProducto = "http://localhost:8081/producto/" + d.getProductoId();
-
-		ProductoDTO productoDTO = perfulandiaConfig.restTemplate().getForObject(urlProducto, ProductoDTO.class);
+		
 
 		
 		detalleBoleta.setCantidad(d.getCantidad());
 
-		detalleBoleta.setProductoId(productoDTO.getIdproducto());
-		detalleBoleta.setSubtotal(d.getCantidad() * productoDTO.getPrecio());
+		detalleBoleta.setProductoId(d.getProductoId());
+		detalleBoleta.setSubtotal(d.getSubtotal());
 		detalleBoleta.setBoletaId(d.getBoletaId());
 		detalleBoletaRepository.save(detalleBoleta);
-		perfulandiaConfig.restTemplate().postForEntity("http://localhost:8083/boleta/" + detalleBoleta.getBoletaId() + "/recalcular", null, void.class );
 		
 		return detalleBoleta;
 	}
