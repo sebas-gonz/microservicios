@@ -162,24 +162,6 @@ public class BoletaControllador {
 		boletaServicio.actualizarBoleta(detalleBoleta);
 		return ResponseEntity.ok().build();
 	}
-	@PostMapping("/{id}/recalcular")
-	@Operation(
-		    summary = "recalcula la boleta",
-		    description = "recalcula la boleta segun la id"
-		)
-		@ApiResponses(value = {
-		    @ApiResponse(
-		        responseCode = "200",
-		        description = "boleta recalculada"),
-		    @ApiResponse(
-		        responseCode = "500",
-		        description = "recalculado no encontrado."
-		    )
-		})
-    public ResponseEntity<Void> recalcularTotalBoleta(@PathVariable("id") int id) {
-        boletaServicio.recalcularTotal(id);
-        return ResponseEntity.ok().build();
-    }
 	
 	@PostMapping("/{id}")
 	@Operation(

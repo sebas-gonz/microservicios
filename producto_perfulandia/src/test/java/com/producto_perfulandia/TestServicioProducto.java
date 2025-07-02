@@ -71,6 +71,7 @@ public class TestServicioProducto {
 		assertNull(encontrado, "El producto no encontrado debe ser nulo"); //Verificamos que el Producto encontrado sea null
 		
 	}
+	
 	@Test // obtener lista de todos los productos
 	void testObtenerProductos() {
 		List<Producto> productos = Arrays.asList(producto, new Producto()); // Creamos una lista con el producto creado inicialmente e instanciamos uno nuevo
