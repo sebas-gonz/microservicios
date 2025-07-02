@@ -126,10 +126,12 @@ public class TestPedido {
 		Pedido creado = crearPedido(pedidoDto);
 		when(repositorio.findById(1)).thenReturn(Optional.of(creado));
 		
-		assertEquals(1, creado.getPedidoId());
-		assertEquals(1, creado.getUsuarioId());
+		Pedido pedEncon = servicio.pedidoById(1);
 		
-		verify(repositorio).findById(creado.getPedidoId());
+		assertEquals(1, pedEncon.getPedidoId());
+		assertEquals(1, pedEncon.getUsuarioId());
+		
+		verify(repositorio).findById(1);
 	}
 	
 	@Test
