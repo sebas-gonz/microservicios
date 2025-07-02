@@ -90,6 +90,16 @@ public class TestsDetallePedido {
 	        verify(detallePedidoRepositorio, times(1)).save(detalleExistente);
 	    }
 	    
+	    @Test
+	    void testNoEncontrado() {
+		     when(detallePedidoRepositorio.findById(50)).thenReturn(Optional.empty());
+		     
+		     DetallePedido encontrado = detallePedidoServicio.detallePedidoById(50);
+		     
+		     assertNull(encontrado,"El detalle pedido debe ser nulo");
+		     verify(detallePedidoRepositorio).findById(50);
+		     
+	    }
 	    
 
 }
