@@ -19,13 +19,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.boleta_perfulandia.entidades.Boleta;
 import com.boleta_perfulandia.repositorio.BoletaRepositorio;
 import com.boleta_perfulandia.servicio.BoletaServicio;
-import com.trabajador_perfulandia.entidad.Empleado;
+
 @ExtendWith(MockitoExtension.class)
 public class TestsServicioBoleta {
 	@Mock
@@ -51,26 +50,26 @@ public class TestsServicioBoleta {
     }
     @Test//Agregar bopleta
     void agregarBoleta() {
-    	when(boletaRepository.save(any(Boleta.class))).thenReturn(boleta);//Simulamos que el repositorio ingrese una boleta
-    	Boleta crearBoleta = boletaService.crearBoleta(boleta);//Ejecutamos la simulacion
-    	assertNotNull(crearBoleta, "El objeto no puede ser null");//Se verifica que no sea null
-    	assertEquals(1, crearBoleta.getBoletaId());//Se confirma si se ingreso la boleta
+    	when(boletaRepository.save(any(Boleta.class))).thenReturn(boleta);
+    	Boleta crearBoleta = boletaService.crearBoleta(boleta);
+    	assertNotNull(crearBoleta, "El objeto no puede ser null");
+    	assertEquals(1, crearBoleta.getBoletaId());
     }
     @Test //Buscar boleta
     void buscarBoletaId() {
-    	when(boletaRepository.findById(1)).thenReturn(Optional.of(boleta));//Creamos una simulacion donde el repositorio busca la boleta
-    	Boleta encBoleta = boletaService.boletaById(1);//Se ejecuta la simulacion
-    	assertNotNull(encBoleta,"El objeto no puede ser nulo");//Confirmamos que el objeto no sea nulo
-    	assertEquals(1, encBoleta.getBoletaId());//Confirmamos que la boleta se haya encontrado
+    	when(boletaRepository.findById(1)).thenReturn(Optional.of(boleta));
+    	Boleta encBoleta = boletaService.boletaById(1);
+    	assertNotNull(encBoleta,"El objeto no puede ser nulo");
+    	assertEquals(1, encBoleta.getBoletaId());
     }
     @Test //Boleta no existente
     void boletaNoEncontrada() {
-    	when(boletaRepository.findById(3)).thenReturn(Optional.empty());//Simulamos que el repositorio busque una boleta por una ID
-    	Boleta boletaNoEnc = boletaService.boletaById(3);//Se ejecuta el la simulacion
-    	assertNull(boletaNoEnc,"El objeto no puede ser null");//Confirmamos que sea null
+    	when(boletaRepository.findById(3)).thenReturn(Optional.empty());
+    	Boleta boletaNoEnc = boletaService.boletaById(3);
+    	assertNull(boletaNoEnc,"El objeto no puede ser null");
     	
     }
-    @Test //Listar Boletas
+    @Test 
     void listarBoletas() {
     	List<Boleta> boletas = Arrays.asList(boleta, new Boleta());
     	when(boletaRepository.findAll()).thenReturn(boletas);
@@ -78,16 +77,16 @@ public class TestsServicioBoleta {
     	assertEquals(2, listBoleta.size());
     	
     }
-    @Test //Test Editar Boleta
+    @Test 
     void editarBoleta() {
-    	when(boletaRepository.findById(boleta.getBoletaId())).thenReturn(Optional.of(boleta));//Simulamos que el repositorio busque una boleta por el id
-    	Boleta encBoleta = boletaService.boletaById(boleta.getBoletaId());//Ejecutamos la simulacion
-    	encBoleta.setNombreUsuario("Jose");//Actualizamos la boleta
-    	when(boletaRepository.save(encBoleta)).thenReturn(encBoleta);//Simulamos que el repositorio guarde la nueva boleta
-    	Boleta editBoleta = boletaService.editarBoletaById(encBoleta.getBoletaId(), encBoleta);//Ejecutamos la sumulacion
-    	assertNotNull(editBoleta,"El objeto no puede ser nulo");//Confirmamos que el objeto no es nulo
-    	assertEquals(editBoleta.getBoletaId(), boleta.getBoletaId());//Comprobamos que la boleta id sea igual
-    	assertEquals("Jose", boleta.getNombreUsuario()); //Confirmamos que la boleta se haya editato
+    	when(boletaRepository.findById(boleta.getBoletaId())).thenReturn(Optional.of(boleta));
+    	Boleta encBoleta = boletaService.boletaById(boleta.getBoletaId());
+    	encBoleta.setNombreUsuario("Jose");
+    	when(boletaRepository.save(encBoleta)).thenReturn(encBoleta);
+    	Boleta editBoleta = boletaService.editarBoletaById(encBoleta.getBoletaId(), encBoleta);
+    	assertNotNull(editBoleta,"El objeto no puede ser nulo");
+    	assertEquals(editBoleta.getBoletaId(), boleta.getBoletaId());
+    	assertEquals("Jose", boleta.getNombreUsuario()); 
     	
     	
     }

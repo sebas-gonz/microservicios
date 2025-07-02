@@ -31,17 +31,9 @@ public class InventarioServicio {
 		return inventarios.isEmpty() ? null : inventarios;
 	}
 	
-	public InventarioDTO inventarioById(int inventarioId) {
+	public Inventario inventarioById(int inventarioId) {
 		Inventario inventario = repositorio.findById(inventarioId).orElse(null);
-		InventarioDTO inventarioDTO = new InventarioDTO();
-		
-		ProductoDTO producto = restTemplate.getForObject("http://localhost:8081/producto/" + inventario.getProductoId(), ProductoDTO.class);
-		SucursalDTO sucursal = restTemplate.getForObject("http://localhost:8082/sucursal/" + inventario.getSucursalId(), SucursalDTO.class);
-		inventarioDTO.setInventarioId(inventarioId);
-		inventarioDTO.setCantidadDisponible(inventario.getCantidadDisponible());
-		inventarioDTO.setProducto(producto);
-		inventarioDTO.setSucursal(sucursal);
-		return inventarioDTO;
+		return inventario;
 	}
 	
 	public Inventario editarInventario(int inventarioId, Inventario inventarioAct) {

@@ -14,13 +14,13 @@ import com.envio_perfulandia.repositorio.EnvioRepositorio;
 public class EnvioServicio {
 	
 	@Autowired
-	private EnvioRepositorio repostiorio;
+	private EnvioRepositorio repostorio;
 	
 	@Autowired
 	private RestTemplate restTemplate;
 	
 	public Envio crearEnvio(Envio envio) {
-		return repostiorio.save(envio);
+		return repostorio.save(envio);
 	}
 	
 	public Envio crearEnvio(EnvioDTO envioDTO) {
@@ -35,11 +35,11 @@ public class EnvioServicio {
 		envio.setFechaEntrega(envioDTO.getFechaEntrega());
 		envio.setFechaEnvio(envioDTO.getFechaEnvio());
 		envio.setEstado(envioDTO.getEstado());
-		return repostiorio.save(envio);
+		return repostorio.save(envio);
 	}
 	
 	public List<Envio> envios(){
-		List<Envio> envios = repostiorio.findAll();
+		List<Envio> envios = repostorio.findAll();
 		if(envios.isEmpty()) {
 			return null;
 		}
@@ -47,16 +47,16 @@ public class EnvioServicio {
 	}
 	
 	public Envio envioPorId(int envioId) {
-		Envio envio = repostiorio.findById(envioId).orElse(null);
+		Envio envio = repostorio.findById(envioId).orElse(null);
 		return envio;
 	}
 	
 	public void eliminarEnvio(int envioId) {
-		repostiorio.deleteById(envioId);
+		repostorio.deleteById(envioId);
 	}
 	
 	public Envio editarEnvio(int envioId,Envio envioAct) {
-		Envio envio = repostiorio.findById(envioId).orElse(null);
+		Envio envio = repostorio.findById(envioId).orElse(null);
 		
 		envio.setBoletaId(envioAct.getBoletaId());
 		envio.setPedidoId(envioAct.getPedidoId());
@@ -68,6 +68,7 @@ public class EnvioServicio {
 		envio.setFechaEnvio(envioAct.getFechaEnvio());
 		envio.setEstado(envioAct.getEstado());
 		
-		return envio;
+		
+		return repostorio.save(envio);
 	}
 }

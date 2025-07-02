@@ -68,8 +68,8 @@ public class InventarioControllador {
 		    required = true,
 		    example = "1"
 		)
-	public ResponseEntity<InventarioDTO> Inventario(@PathVariable("inventarioid")int inventarioId){
-		InventarioDTO inventario = servicio.inventarioById(inventarioId);
+	public ResponseEntity<Inventario> Inventario(@PathVariable("inventarioid")int inventarioId){
+		Inventario inventario = servicio.inventarioById(inventarioId);
 		return inventario != null ? ResponseEntity.ok(inventario) : ResponseEntity.noContent().build();
 	}
 	
