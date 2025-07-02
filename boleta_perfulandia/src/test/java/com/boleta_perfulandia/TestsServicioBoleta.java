@@ -25,7 +25,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.boleta_perfulandia.entidades.Boleta;
 import com.boleta_perfulandia.repositorio.BoletaRepositorio;
 import com.boleta_perfulandia.servicio.BoletaServicio;
-import com.trabajador_perfulandia.entidad.Empleado;
 @ExtendWith(MockitoExtension.class)
 public class TestsServicioBoleta {
 	@Mock
