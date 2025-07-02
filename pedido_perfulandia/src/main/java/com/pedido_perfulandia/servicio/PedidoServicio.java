@@ -68,12 +68,12 @@ public class PedidoServicio {
 	        for (DetallePedidoDTO detalle : detallesPedidos) {
 	            detalle.setPedidoId(pedidoId);
 	            
-	            String urlInventario = "http://localhost:8090/inventario/" + pedido.getSucursalId() + "/" + detalle.getProductoId();
+	            String urlInventario = "http://localhost:8088/api/inventario/" + pedido.getSucursalId() + "/" + detalle.getProductoId();
 	            InventarioDTO[] inventarios = restTemplate.getForObject(urlInventario, InventarioDTO[].class);
 	            for(InventarioDTO inventario : inventarios) {
 	            	inventario.setCantidadDisponible(inventario.getCantidadDisponible() - detalle.getCantidad());
 	            }
-	            restTemplate.postForObject("http://localhost:8090/inventario/pedido", Arrays.asList(inventarios), Void.class);
+	            restTemplate.postForObject("http://localhost:8088/api/inventario/pedido", Arrays.asList(inventarios), Void.class);
 	        }	    
 	        String urlDetalle = "http://localhost:8088/api/detalle_pedido/pedido";
 	        restTemplate.postForObject(urlDetalle, detallesPedidos, Void.class);
@@ -209,11 +209,11 @@ public class PedidoServicio {
 	public Pedido editarPedido(int pedidoId,Pedido pedidoAct) {
 		Pedido pedido = respositorio.findById(pedidoId).orElse(null);
 		pedido.setEstado(pedidoAct.getEstado());
-		pedido.setFechaPedido(LocalDateTime.now());
+		pedido.setFechaPedido(pedidoAct.getFechaPedido());
 		pedido.setSucursalId(pedidoAct.getSucursalId());
 		pedido.setUsuarioId(pedidoAct.getUsuarioId());
 		
-		return pedido;
+		return respositorio.save(pedido);
 	}
 	
 	public List<Pedido> pedidoPorSucursalId(int sucursalId){

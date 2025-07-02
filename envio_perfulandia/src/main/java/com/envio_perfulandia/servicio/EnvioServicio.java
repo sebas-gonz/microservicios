@@ -68,6 +68,6 @@ public class EnvioServicio {
 		envio.setFechaEnvio(envioAct.getFechaEnvio());
 		envio.setEstado(envioAct.getEstado());
 		
-		return envio;
+		return repostiorio.save(envio);
 	}
 }
